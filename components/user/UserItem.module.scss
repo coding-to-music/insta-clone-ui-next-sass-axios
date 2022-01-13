@@ -1,0 +1,23 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+
+  margin: auto;
+  h3 {
+    text-align: center;
+  }
+}
+
+.content {
+  border-radius: 0.4rem;
+  padding: 1rem;
+  margin: 0.5rem;
+  cursor: pointer;
+  transition: all 0.5s;
+  border: 0.01px solid rgb(231, 231, 231);
+}
+
+.content:hover {
+  background-color: rgb(39, 39, 39);
+  transition: all 0.5s;
+}
