@@ -7,7 +7,7 @@ const UserItem: React.FC<{ user: userObj }> = ({ user }) => {
   return (
     <li className={classes.wrapper}>
       <div className={classes.content}>
-        <Link href={`/places/${user.id}}`} passHref>
+        <Link href={`/places/${user.id}`} passHref>
           <div className={classes.image}>
             <Avatar alt={user.name} image={user.image} />
             <div className={classes.info}>

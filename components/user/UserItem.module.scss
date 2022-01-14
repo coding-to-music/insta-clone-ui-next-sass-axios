@@ -1,7 +1,5 @@
 .wrapper {
   display: flex;
-  justify-content: center;
-
   margin: auto;
   h3 {
     text-align: center;
@@ -20,4 +18,13 @@
 .content:hover {
   background-color: rgb(39, 39, 39);
   transition: all 0.5s;
+}
+
+.image {
+  display: flex;
+  align-items: center;
+}
+
+.info {
+  margin-left: 2rem;
 }

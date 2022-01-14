@@ -18,3 +18,21 @@ a {
   padding: 0;
   margin: 0;
 }
+
+main {
+  margin-top: 5rem;
+}
+
+header {
+  nav {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  header {
+    nav {
+      display: block;
+    }
+  }
+}
