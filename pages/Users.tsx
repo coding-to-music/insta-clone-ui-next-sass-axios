@@ -11,7 +11,7 @@ const user2: userObj = {
   id: "u2",
   name: "Valon Rama",
   image: "https://i.imgur.com/zTbh6K1.jpeg",
-  places: 4,
+  places: 1,
 };
 
 const Users: React.FC = (props) => {

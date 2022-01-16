@@ -24,20 +24,12 @@
   color: white;
 }
 
-.drawer {
-  nav {
-    height: 100%;
-  }
+.drawerNav {
+  height: 100%;
 }
 
 @media (min-width: 768px) {
   .menuBtn {
     display: none;
   }
-
-  //   header {
-  //     nav {
-  //       display: block;
-  //     }
-  //   }
 }

@@ -13,7 +13,7 @@ const UserItem: React.FC<{ user: userObj }> = ({ user }) => {
             <div className={classes.info}>
               <h2>{user.name}</h2>
               <h3>
-                {user.places} {user.places === 1 ? "Place" : "Places"}
+                {user.places} {user.places === 1 ? "Post" : "Posts"}
               </h3>
             </div>
           </div>
