@@ -1,5 +1,12 @@
+import Input from "../../components/shared/FormElements/Input";
+import classes from "./NewPlace.module.scss";
+
 const NewPlace: React.FC = () => {
-  return <h2>NEW PLACE</h2>;
+  return (
+    <form className={classes.placeForm}>
+      <Input label='Input Form' element='input' />
+    </form>
+  );
 };
 
 export default NewPlace;

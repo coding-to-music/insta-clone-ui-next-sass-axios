@@ -1,7 +1,9 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  width: 40%;
+  justify-content: center;
+  width: 60vw;
+  max-width: 30rem;
   margin: auto;
   .error {
     text-align: center;

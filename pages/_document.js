@@ -10,8 +10,8 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head />
-        <div id='backdrop' />
         <div id='drawerportal' />
+        <div id='backdrop' />
         <body>
           <Main />
           <NextScript />

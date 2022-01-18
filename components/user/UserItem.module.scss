@@ -1,18 +1,19 @@
 .wrapper {
-  display: flex;
   margin: auto;
+
   h3 {
     text-align: center;
   }
 }
 
 .content {
-  border-radius: 0.4rem;
+  width: 60vw;
+  max-width: 30rem;
   padding: 1rem;
   margin: 0.5rem;
   cursor: pointer;
-  transition: all 0.5s;
-  border: 0.01px solid rgb(231, 231, 231);
+  transition: all 0.1s;
+  border: 0.01px solid rgb(167, 167, 167);
 }
 
 .content:hover {
@@ -20,11 +21,20 @@
   transition: all 0.5s;
 }
 
-.image {
+.innerWrapper {
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+}
+.avatar {
 }
 
 .info {
-  margin-left: 2rem;
+  align-self: center;
+  flex: 1;
+  overflow: hidden;
+  h3 {
+    text-align: left;
+  }
 }

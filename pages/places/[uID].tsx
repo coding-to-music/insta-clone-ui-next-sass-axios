@@ -11,7 +11,7 @@ const post1: postObj = {
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
   creatorId: "u1",
   address: "Atlantic City, NJ",
-  coordinates: { lat: 39.3594698, lng: -74.4092219 },
+  coordinates: { lat: 39.3651633, lng: -74.4246609 },
 };
 const post2: postObj = {
   id: "p2",
@@ -22,7 +22,7 @@ const post2: postObj = {
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
   creatorId: "u2",
   address: "Port Republic, NJ",
-  coordinates: { lat: 39.3594698, lng: -74.4092219 },
+  coordinates: { lat: 39.52071742405363, lng: -74.50259282157384 },
 };
 const Posts: postObj[] = [post1, post2];
 

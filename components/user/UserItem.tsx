@@ -5,11 +5,13 @@ import Link from "next/link";
 
 const UserItem: React.FC<{ user: userObj }> = ({ user }) => {
   return (
-    <li className={classes.wrapper}>
+    <div className={classes.wrapper}>
       <div className={classes.content}>
         <Link href={`/places/${user.id}`} passHref>
-          <div className={classes.image}>
-            <Avatar alt={user.name} image={user.image} />
+          <div className={classes.innerWrapper}>
+            <div className={classes.avatar}>
+              <Avatar alt={user.name} image={user.image} />
+            </div>
             <div className={classes.info}>
               <h2>{user.name}</h2>
               <h3>
@@ -19,7 +21,7 @@ const UserItem: React.FC<{ user: userObj }> = ({ user }) => {
           </div>
         </Link>
       </div>
-    </li>
+    </div>
   );
 };
 

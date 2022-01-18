@@ -1,0 +1,60 @@
+.modal {
+  z-index: 100;
+  position: fixed;
+  top: 25vh;
+  left: 10%;
+  width: 80%;
+  background: #555555;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 0.2rem;
+  transition: all 1s;
+}
+
+.modalHeader {
+  width: 100%;
+  padding: 0.4rem 0.2rem;
+  background: #2b2b2b;
+  color: rgb(202, 202, 202);
+  border: 1px solid rgb(87, 87, 87);
+
+  h2 {
+    margin: 0.3rem;
+  }
+}
+
+.modalContent {
+  border: 1px solid rgb(87, 87, 87);
+}
+
+.modalFooter {
+  padding: 1rem 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .modal {
+    left: calc(50% - 20rem);
+    width: 40rem;
+  }
+}
+
+.modalEnter {
+  transform: translateY(-10rem);
+  opacity: 0;
+}
+
+.modalEnterActive {
+  transform: translateY(0);
+  opacity: 1;
+  transition: all 200ms;
+}
+
+.modalExit {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.modalExitActive {
+  transform: translateY(-10rem);
+  opacity: 0;
+  transition: all 200ms;
+}
