@@ -13,7 +13,7 @@ const UsersList: React.FC<{ items: userObj[] }> = (props) => {
   return (
     <ul className={classes.wrapper}>
       {props.items.map((user) => {
-        return <UserItem key={user.id} user={user} />;
+        return <UserItem user={user} key={user.id} />;
       })}
     </ul>
   );

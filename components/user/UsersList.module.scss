@@ -10,3 +10,10 @@
     margin-top: 10rem;
   }
 }
+
+@media (max-width: 768px) {
+  .wrapper {
+    width: 90vw;
+    max-width: unset;
+  }
+}

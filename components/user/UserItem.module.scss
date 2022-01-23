@@ -13,7 +13,7 @@
   margin: 0.5rem;
   cursor: pointer;
   transition: all 0.1s;
-  border: 0.01px solid rgb(167, 167, 167);
+  border-bottom: 0.01px solid rgb(167, 167, 167);
 }
 
 .content:hover {
@@ -27,8 +27,6 @@
   justify-content: center;
   gap: 1rem;
 }
-.avatar {
-}
 
 .info {
   align-self: center;
@@ -36,5 +34,12 @@
   overflow: hidden;
   h3 {
     text-align: left;
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    width: 90vw;
+    max-width: unset;
   }
 }

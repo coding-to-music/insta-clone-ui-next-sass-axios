@@ -45,7 +45,7 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
             <Button onClick={openMapHandler} inverse={true}>
               VIEW ON MAP
             </Button>
-            <Button href={`/places/${post.id}`}>EDIT</Button>
+            <Button href={`/places/edit/${post.id}`}>EDIT</Button>
             <Button href={`/`} danger={true}>
               DELETE
             </Button>

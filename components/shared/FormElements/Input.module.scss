@@ -1,5 +1,6 @@
 .formControl {
-  margin: 0.2rem 0;
+  margin: 0.1rem 0;
+  position: relative;
 
   input,
   textarea {
@@ -8,7 +9,8 @@
     border: 1px solid #ccc;
     background: #f8f8f8;
     display: block;
-    padding: 0.15rem 0.25rem;
+    padding: 0.15rem 0.15rem;
+    margin-bottom: 1rem;
   }
   input:focus,
   textarea:focus {
@@ -23,11 +25,15 @@
   }
 }
 
-.formControl.invalid,
 .formControl.invalid {
-  label,
+  label {
+    color: red;
+  }
   p {
     color: red;
+    position: absolute;
+    top: 0rem;
+    right: 1rem;
   }
   input,
   textarea {
