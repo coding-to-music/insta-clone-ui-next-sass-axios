@@ -88,5 +88,7 @@ export function getServerSideProps(context: any) {
     return post.id === postID;
   });
 
-  return { props: { filteredPosts: filteredPosts } };
+  const convertedPosts = filteredPosts || null;
+
+  return { props: { filteredPosts: convertedPosts } };
 }

@@ -28,9 +28,7 @@
   }
   button {
     cursor: pointer;
-    border: 1px solid #292929;
-    color: #292929;
-    background: transparent;
+    color: #f3f3f3;
     padding: 0.5rem;
     font: inherit;
   }
@@ -39,9 +37,15 @@
   }
   button:hover,
   button:active {
-    background: #292929;
-    color: white;
+    background-color: rgb(59, 59, 59);
+    transition: all 0.5s;
+    border-radius: 8px;
   }
+}
+.logout {
+  background: none;
+  border: none;
+  border-radius: 8px;
 }
 
 @media (min-width: 768px) {
@@ -55,14 +59,8 @@
       text-decoration: none;
     }
     button {
-      border: 1px solid white;
       color: white;
-      background: transparent;
-    }
-    button:hover,
-    button:active {
-      background: #f8df00;
-      color: #292929;
+      text-decoration: none;
     }
   }
 }

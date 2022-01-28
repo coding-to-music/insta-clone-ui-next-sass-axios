@@ -41,10 +41,15 @@
   .modalContent {
     padding: 0;
   }
-  .modalActions {
-    text-align: right;
-  }
 }
+.modalActions {
+  text-align: right;
+}
+.message {
+  margin: 0.5rem;
+  font-weight: 500;
+}
+
 .mapContainer {
   width: 100%;
   height: 25rem;

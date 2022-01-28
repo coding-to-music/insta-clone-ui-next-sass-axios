@@ -74,8 +74,8 @@ const Modal: React.FC<{
         classNames={{
           enter: classes.modalEnter,
           enterActive: classes.modalEnterActive,
-          exitActive: classes.modalExitActive,
           exit: classes.modalExit,
+          exitActive: classes.modalExitActive,
         }}
       >
         <ModalOverlay {...props} />

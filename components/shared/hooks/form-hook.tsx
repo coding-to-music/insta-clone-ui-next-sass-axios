@@ -1,10 +1,15 @@
 import { useCallback, useReducer } from "react";
 
 export interface inputsType {
-  title?: { value: string | number; isValid: boolean };
-  description?: { value: string | number; isValid: boolean };
-  address?: { value: string | number; isValid: boolean };
+  title?: { value: string | number | undefined; isValid: boolean };
+  description?: { value: string | number | undefined; isValid: boolean };
+  address?: { value: string | number | undefined; isValid: boolean };
+  email?: { value: string | number | undefined; isValid: boolean };
+  password?: { value: string | number | undefined; isValid: boolean };
+  login?: { value: string | number | undefined; isValid: boolean };
 }
+
+type keyType = keyof inputsType;
 export interface actionObj {
   type: "INPUT_CHANGE";
   value: string | number;
@@ -16,8 +21,12 @@ export interface actionObjSet {
   formIsValid: boolean;
   inputs: inputsType;
 }
+export interface stateForm {
+  inputs: inputsType;
+  isValid: boolean;
+}
 
-//state data arch
+// state data arch
 // [inputs objects are determined by form creating it using useForm hook]
 // inputs:{
 //   title?: { value: string | number; isValid: boolean };
@@ -32,10 +41,15 @@ const formReducer = (state: any, action: actionObj | actionObjSet) => {
       let formIsValid = true;
 
       for (const inputID in state.inputs) {
+        //guardian clause for login form
+        if (!state.inputs[inputID as keyType]) {
+          continue;
+        }
         if (inputID === action.inputID) {
           formIsValid = formIsValid && action.isValid;
         } else {
-          formIsValid = formIsValid && state.inputs[inputID].isValid;
+          formIsValid =
+            formIsValid && state.inputs[inputID as keyType]!.isValid;
         }
       }
       return {
@@ -53,7 +67,7 @@ const formReducer = (state: any, action: actionObj | actionObjSet) => {
   }
 };
 
-const useForm = (initialInputs: any, initialFormValidity: boolean) => {
+const useForm = (initialInputs: inputsType, initialFormValidity: boolean) => {
   const [formState, dispatch] = useReducer(formReducer, {
     inputs: initialInputs,
     isValid: initialFormValidity,
