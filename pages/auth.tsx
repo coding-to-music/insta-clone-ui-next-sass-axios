@@ -24,9 +24,42 @@ const Auth = () => {
     true
   );
 
-  const submitHandler = (e: React.SyntheticEvent) => {
+  const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log(formState.inputs);
+
+    if (isLogin) {
+      try {
+        const response = await fetch(`http://localhost:5000/api/users/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+        });
+        const data = await response.json();
+        console.log(data);
+      } catch (err) {
+        console.warn(err);
+      }
+    } else {
+      try {
+        const response = await fetch(`http://localhost:5000/api/users/signup`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: formState.inputs.username.value,
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+        });
+        const data = await response.json();
+        console.log(data);
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+
     authCtx.login();
     router.push("/");
   };
@@ -34,16 +67,15 @@ const Auth = () => {
   const changeModeHandler = () => {
     if (!isLogin) {
       setFormData(
-        { ...formState.inputs, login: undefined },
+        { ...formState.inputs, username: undefined },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
     } else {
       setFormData(
-        { ...formState.inputs, login: { value: "", isValid: false } },
+        { ...formState.inputs, username: { value: "", isValid: false } },
         false
       );
     }
-    console.log(formState.isValid);
     setIsLogin((prevMode) => !prevMode);
   };
 
@@ -53,14 +85,14 @@ const Auth = () => {
         <h2>{isLogin ? "Login" : "Create a new account"}</h2>
         {!isLogin && (
           <Input
-            id='login'
+            id='username'
             element='input'
             label='Account name'
             validators={[VALIDATOR_REQUIRE()]}
             errorText='Please enter a valid account name'
             onInput={inputHandler}
-            value={formState.inputs.login.value}
-            valid={formState.inputs.login.isValid}
+            value={formState.inputs.username.value}
+            valid={formState.inputs.username.isValid}
           />
         )}
         <Input
@@ -78,13 +110,13 @@ const Auth = () => {
           element='input'
           label='Password'
           validators={[VALIDATOR_MINLENGTH(6)]}
-          errorText='Password is invalid, must be at least 5 characters'
+          errorText='Password is invalid, must be at least 6 characters'
           onInput={inputHandler}
           value={formState.inputs.password.value}
           valid={formState.inputs.password.isValid}
         />
         <Button type='submit' disabled={!formState.isValid}>
-          LOGIN
+          {isLogin ? "LOGIN" : "CREATE"}
         </Button>
         <Button type='button' inverse={true} onClick={changeModeHandler}>
           {isLogin ? "Need to make an account?" : "Already have an account?"}

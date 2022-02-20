@@ -6,7 +6,7 @@ export interface inputsType {
   address?: { value: string | number | undefined; isValid: boolean };
   email?: { value: string | number | undefined; isValid: boolean };
   password?: { value: string | number | undefined; isValid: boolean };
-  login?: { value: string | number | undefined; isValid: boolean };
+  username?: { value: string | number | undefined; isValid: boolean };
 }
 
 type keyType = keyof inputsType;
