@@ -10,10 +10,14 @@ import {
 import classes from "./Auth.module.scss";
 import { AuthContext } from "../components/shared/context/auth-context";
 import { useRouter } from "next/router";
+import ErrorModal from "../components/shared/UIElements/ErrorModal";
+import LoadingSpinner from "../components/shared/UIElements/LoadingSpinner";
 
 const Auth = () => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<any>(null);
   const authCtx = useContext(AuthContext);
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -29,6 +33,7 @@ const Auth = () => {
 
     if (isLogin) {
       try {
+        setIsLoading(true);
         const response = await fetch(`http://localhost:5000/api/users/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -39,8 +44,11 @@ const Auth = () => {
         });
         const data = await response.json();
         console.log(data);
+        setIsLoading(false);
+        authCtx.login();
       } catch (err) {
-        console.warn(err);
+        setIsLoading(false);
+        setError("A communication error occured. Please try again");
       }
     } else {
       try {
@@ -54,13 +62,15 @@ const Auth = () => {
           }),
         });
         const data = await response.json();
+        setIsLoading(false);
+        authCtx.login();
         console.log(data);
       } catch (err) {
-        console.warn(err);
+        setIsLoading(false);
+        setError("A communication error occured. Please try again");
       }
     }
 
-    authCtx.login();
     router.push("/");
   };
 
@@ -81,6 +91,7 @@ const Auth = () => {
 
   return (
     <div className={classes.wrapper}>
+      {isLoading && <LoadingSpinner asOverlay={true} />}
       <form className={classes.form} onSubmit={submitHandler}>
         <h2>{isLogin ? "Login" : "Create a new account"}</h2>
         {!isLogin && (
