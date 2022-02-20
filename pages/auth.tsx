@@ -10,7 +10,7 @@ import {
 import classes from "./Auth.module.scss";
 import { AuthContext } from "../components/shared/context/auth-context";
 import { useRouter } from "next/router";
-import ErrorModal from "../components/shared/UIElements/ErrorModal";
+// import ErrorModal from "../components/shared/UIElements/ErrorModal";
 import LoadingSpinner from "../components/shared/UIElements/LoadingSpinner";
 
 const Auth = () => {
