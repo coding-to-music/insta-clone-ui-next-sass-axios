@@ -9,7 +9,7 @@ HOSTED [HERE](https://insta-sham.netlify.app/)
 - ReactJS
 - SCSS
 - React Transition Group
-- Google Maps API(for displaying map location of posts)
+- Google Maps API `(for displaying map location of posts)`
 
 ### Back End
 
@@ -19,7 +19,7 @@ HOSTED [HERE](https://insta-sham.netlify.app/)
 - Express Validator
 - Body Parser
 - Axios
-- Google Maps API(for converting addresses to coordinates)
+- Google Maps API `(for converting addresses to coordinates)`
 
 ### Database
 
