@@ -1,8 +1,8 @@
-# WIP INSTAGRAM CLONE:
+# WIP INSTAGRAM CLONE
 
-## HOSTED [HERE](https://insta-sham.netlify.app/)
+HOSTED [HERE](https://insta-sham.netlify.app/)
 
-## Current tech stack:
+## Current tech stack
 
 ### Front End
 
