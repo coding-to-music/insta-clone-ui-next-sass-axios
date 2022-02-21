@@ -38,7 +38,7 @@ const ModalOverlay: React.FC<{
         <div className={`${classes.modalContent} ${contentClass}`}>
           {children}
         </div>
-        <footer className={`${classes.Footer} ${footerClass}`}>{footer}</footer>
+        <footer className={footerClass}>{footer}</footer>
       </form>
     </div>
   );

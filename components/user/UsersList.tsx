@@ -1,8 +1,8 @@
-import userObj from "../../models/userObj";
+import UserObj from "../../models/userObj";
 import UserItem from "./UserItem";
 import classes from "./UsersList.module.scss";
 
-const UsersList: React.FC<{ items: userObj[] }> = (props) => {
+const UsersList: React.FC<{ items: UserObj[] }> = (props) => {
   if (props.items.length === 0) {
     return (
       <div className={classes.wrapper}>

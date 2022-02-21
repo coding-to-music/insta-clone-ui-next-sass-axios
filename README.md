@@ -7,8 +7,9 @@ HOSTED [HERE](https://insta-sham.netlify.app/)
 ### Front End
 
 - ReactJS
-- SCSS
 - React Transition Group
+- SCSS
+- NextJS
 - Google Maps API `(for displaying map location of posts)`
 
 ### Back End

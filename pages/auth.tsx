@@ -10,8 +10,9 @@ import {
 import classes from "./Auth.module.scss";
 import { AuthContext } from "../components/shared/context/auth-context";
 import { useRouter } from "next/router";
-// import ErrorModal from "../components/shared/UIElements/ErrorModal";
+import ErrorModal from "../components/shared/UIElements/ErrorModal";
 import LoadingSpinner from "../components/shared/UIElements/LoadingSpinner";
+import axios, { AxiosError } from "axios";
 
 const Auth = () => {
   const router = useRouter();
@@ -30,48 +31,50 @@ const Auth = () => {
 
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-
+    let response;
+    setIsLoading(true);
     if (isLogin) {
       try {
-        setIsLoading(true);
-        const response = await fetch(`http://localhost:5000/api/users/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+        response = await axios.post(
+          "http://localhost:5000/api/users/login",
+          {
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
-          }),
-        });
-        const data = await response.json();
-        console.log(data);
+          },
+          { headers: { "Content-Type": "application/json" } }
+        );
+        const data = await response.data;
         setIsLoading(false);
         authCtx.login();
+        router.push("/");
       } catch (err) {
+        const error = err as AxiosError;
+        setError(error.response?.data.message);
         setIsLoading(false);
-        setError("A communication error occured. Please try again");
       }
     } else {
       try {
-        const response = await fetch(`http://localhost:5000/api/users/signup`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+        response = await axios.post(
+          "http://localhost:5000/api/users/signup",
+          {
             username: formState.inputs.username.value,
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
-          }),
-        });
-        const data = await response.json();
+          },
+          { headers: { "Content-Type": "application/json" } }
+        );
+        const data = await response.data;
+        console.log(data);
         setIsLoading(false);
         authCtx.login();
-        console.log(data);
+        router.push("/");
       } catch (err) {
+        const error = err as AxiosError;
+        setError(error.response?.data.message);
         setIsLoading(false);
-        setError("A communication error occured. Please try again");
       }
     }
-
-    router.push("/");
+    console.log(response);
   };
 
   const changeModeHandler = () => {
@@ -89,51 +92,58 @@ const Auth = () => {
     setIsLogin((prevMode) => !prevMode);
   };
 
+  const errorHandler = () => {
+    setError(null);
+  };
+
   return (
-    <div className={classes.wrapper}>
-      {isLoading && <LoadingSpinner asOverlay={true} />}
-      <form className={classes.form} onSubmit={submitHandler}>
-        <h2>{isLogin ? "Login" : "Create a new account"}</h2>
-        {!isLogin && (
+    <React.Fragment>
+      <ErrorModal error={error} onClear={errorHandler} />
+      <div className={classes.wrapper}>
+        {isLoading && <LoadingSpinner asOverlay={true} />}
+        <form className={classes.form} onSubmit={submitHandler}>
+          <h2>{isLogin ? "Login" : "Create a new account"}</h2>
+          {!isLogin && (
+            <Input
+              id='username'
+              element='input'
+              label='Account name'
+              validators={[VALIDATOR_REQUIRE()]}
+              errorText='Please enter a valid account name'
+              onInput={inputHandler}
+              value={formState.inputs.username.value}
+              valid={formState.inputs.username.isValid}
+            />
+          )}
           <Input
-            id='username'
+            id='email'
             element='input'
-            label='Account name'
-            validators={[VALIDATOR_REQUIRE()]}
-            errorText='Please enter a valid account name'
+            label='E-Mail'
+            validators={[VALIDATOR_EMAIL()]}
+            errorText='Please enter a valid email address'
             onInput={inputHandler}
-            value={formState.inputs.username.value}
-            valid={formState.inputs.username.isValid}
+            value={formState.inputs.email.value}
+            valid={formState.inputs.email.isValid}
           />
-        )}
-        <Input
-          id='email'
-          element='input'
-          label='E-Mail'
-          validators={[VALIDATOR_EMAIL()]}
-          errorText='Please enter a valid email address'
-          onInput={inputHandler}
-          value={formState.inputs.email.value}
-          valid={formState.inputs.email.isValid}
-        />
-        <Input
-          id='password'
-          element='input'
-          label='Password'
-          validators={[VALIDATOR_MINLENGTH(6)]}
-          errorText='Password is invalid, must be at least 6 characters'
-          onInput={inputHandler}
-          value={formState.inputs.password.value}
-          valid={formState.inputs.password.isValid}
-        />
-        <Button type='submit' disabled={!formState.isValid}>
-          {isLogin ? "LOGIN" : "CREATE"}
-        </Button>
-        <Button type='button' inverse={true} onClick={changeModeHandler}>
-          {isLogin ? "Need to make an account?" : "Already have an account?"}
-        </Button>
-      </form>
-    </div>
+          <Input
+            id='password'
+            element='input'
+            label='Password'
+            validators={[VALIDATOR_MINLENGTH(6)]}
+            errorText='Password is invalid, must be at least 6 characters'
+            onInput={inputHandler}
+            value={formState.inputs.password.value}
+            valid={formState.inputs.password.isValid}
+          />
+          <Button type='submit' disabled={!formState.isValid}>
+            {isLogin ? "LOGIN" : "CREATE"}
+          </Button>
+          <Button type='button' inverse={true} onClick={changeModeHandler}>
+            {isLogin ? "Need to make an account?" : "Already have an account?"}
+          </Button>
+        </form>
+      </div>
+    </React.Fragment>
   );
 };
 

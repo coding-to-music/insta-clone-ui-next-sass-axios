@@ -2,7 +2,9 @@ import React from "react";
 import Modal from "./Modal";
 import Button from "../FormElements/Button";
 
-const ErrorModal: React.FC<{ onClear: () => {}; error: string }> = (props) => {
+const ErrorModal: React.FC<{ onClear: () => void; error: string }> = (
+  props
+) => {
   return (
     <Modal
       onCancel={props.onClear}
