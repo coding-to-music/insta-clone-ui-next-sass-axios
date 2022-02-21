@@ -1,6 +1,7 @@
 # WIP INSTAGRAM CLONE
 
-HOSTED [HERE](https://insta-sham.netlify.app/)
+HOSTED [HERE](https://insta-sham.netlify.app/)  
+BACKEND REPO [HERE](https://github.com/mhaslinsky/imagesbackend)
 
 ## Current tech stack
 
@@ -10,6 +11,7 @@ HOSTED [HERE](https://insta-sham.netlify.app/)
 - React Transition Group
 - SCSS
 - NextJS
+- Axios
 - Google Maps API `(for displaying map location of posts)`
 
 ### Back End
