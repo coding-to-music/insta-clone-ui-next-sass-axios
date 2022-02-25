@@ -12,13 +12,13 @@ import { AuthContext } from "../components/shared/context/auth-context";
 import { useRouter } from "next/router";
 import ErrorModal from "../components/shared/UIElements/ErrorModal";
 import LoadingSpinner from "../components/shared/UIElements/LoadingSpinner";
-import axios, { AxiosError } from "axios";
+import { useHttpClient } from "../components/shared/hooks/http-hook";
+import { NextPage } from "next";
 
-const Auth = () => {
+const Auth: NextPage = () => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<any>(null);
+  const { isLoading, error, clearError, sendRequest } = useHttpClient();
   const authCtx = useContext(AuthContext);
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -31,50 +31,39 @@ const Auth = () => {
 
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    let response;
-    setIsLoading(true);
+    let responseData;
     if (isLogin) {
       try {
-        response = await axios.post(
+        responseData = await sendRequest(
           "http://localhost:5000/api/users/login",
+          "POST",
           {
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
           },
-          { headers: { "Content-Type": "application/json" } }
+          { "Content-Type": "application/json" }
         );
-        const data = await response.data;
-        setIsLoading(false);
-        authCtx.login();
+
+        authCtx.login(responseData.user.id);
         router.push("/");
-      } catch (err) {
-        const error = err as AxiosError;
-        setError(error.response?.data.message);
-        setIsLoading(false);
-      }
+      } catch (err) {}
     } else {
       try {
-        response = await axios.post(
+        responseData = await sendRequest(
           "http://localhost:5000/api/users/signup",
+          "POST",
           {
             username: formState.inputs.username.value,
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
           },
-          { headers: { "Content-Type": "application/json" } }
+          { "Content-Type": "application/json" }
         );
-        const data = await response.data;
-        console.log(data);
-        setIsLoading(false);
-        authCtx.login();
+        authCtx.login(responseData.user.id);
         router.push("/");
-      } catch (err) {
-        const error = err as AxiosError;
-        setError(error.response?.data.message);
-        setIsLoading(false);
-      }
+      } catch (err) {}
     }
-    console.log(response);
+    console.log(responseData);
   };
 
   const changeModeHandler = () => {
@@ -92,13 +81,9 @@ const Auth = () => {
     setIsLogin((prevMode) => !prevMode);
   };
 
-  const errorHandler = () => {
-    setError(null);
-  };
-
   return (
     <React.Fragment>
-      <ErrorModal error={error} onClear={errorHandler} />
+      <ErrorModal error={error} onClear={clearError} />
       <div className={classes.wrapper}>
         {isLoading && <LoadingSpinner asOverlay={true} />}
         <form className={classes.form} onSubmit={submitHandler}>
