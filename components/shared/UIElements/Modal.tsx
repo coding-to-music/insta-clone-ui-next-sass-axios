@@ -80,6 +80,7 @@ const Modal: React.FC<{
       >
         <ModalOverlay {...props} />
       </CSSTransition>
+
       {props.show && <Backdrop onClick={props.onCancel} />}
     </React.Fragment>
   );

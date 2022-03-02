@@ -6,4 +6,6 @@ export default interface postObj {
   address: string;
   creatorId: string;
   coordinates: { lat: number; lng: number };
+  __v?: any;
+  _id?: any;
 }
