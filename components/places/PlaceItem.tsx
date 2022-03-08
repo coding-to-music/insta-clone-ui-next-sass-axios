@@ -80,7 +80,7 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
               VIEW ON MAP
             </Button>
             {authCtx.isLoggedIn && (
-              <Button href={`/places/edit/${post.id}`}>EDIT</Button>
+              <Button href={`/posts/edit/${post.id}`}>EDIT</Button>
             )}
             {authCtx.isLoggedIn && (
               <Button onClick={showDeleteModal} danger={true}>
