@@ -1,8 +1,9 @@
 .placeItem {
-  margin: 0.3rem 0;
+  margin: auto;
   border: 1px solid rgb(87, 87, 87);
   background-color: #2b2b2b;
   display: flex;
+
   .content {
     padding: 0;
   }
@@ -20,6 +21,7 @@
     }
   }
   .image {
+    cursor: pointer;
     max-height: 30rem;
     transition: 0.3s;
     width: 100%;
@@ -60,7 +62,6 @@
 @media (max-width: 768px) {
   .placeItem {
     .image {
-      height: 15rem;
       transition: 0.3s;
     }
   }

@@ -19,7 +19,7 @@ const NavLinks: React.FC = (props) => {
       </li>
       {auth.isLoggedIn && (
         <li>
-          <Link href={`/posts/${auth.userId}`}>MY POSTS</Link>
+          <Link href={`/user/${auth.userId}`}>MY POSTS</Link>
         </li>
       )}
       {auth.isLoggedIn && (

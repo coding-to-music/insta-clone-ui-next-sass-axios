@@ -8,7 +8,7 @@ const PlaceList: React.FC<{ items: postObj[] }> = (props) => {
     return (
       <div className={`${classes.placeList} ${classes.notFound}`}>
         <h2>No Posts found. Try creating one!</h2>
-        <Button href='/places/new'>Create a Post!</Button>
+        <Button href='/posts/new'>Create a Post!</Button>
       </div>
     );
   }

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import ErrorModal from "../../components/shared/UIElements/ErrorModal";
 
-const UserPlaces: React.FC<{ data: postObj[]; myerror: any }> = (props) => {
+const UserPlaces: React.FC<{ data: postObj[]; myerror: string }> = (props) => {
   const [error, setError] = useState<string | null>(null);
   const [posts, setPosts] = useState<postObj[]>([]);
 

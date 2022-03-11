@@ -6,10 +6,16 @@ import React, { useContext, useState } from "react";
 import Modal from "../shared/UIElements/Modal";
 import Map from "../shared/UIElements/Map";
 import { AuthContext } from "../shared/context/auth-context";
-import Auth from "../../pages/auth";
+import { useHttpClient } from "../shared/hooks/http-hook";
+import ErrorModal from "../shared/UIElements/ErrorModal";
+import LoadingSpinner from "../shared/UIElements/LoadingSpinner";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
+  const router = useRouter();
   const authCtx = useContext(AuthContext);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -26,13 +32,19 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
   function cancelDeleteModal() {
     setShowConfirmModal(false);
   }
-  function confirmDeleteModal() {
+  async function confirmDeleteModal() {
     setShowConfirmModal(false);
-    console.log("deleting...");
+    try {
+      await sendRequest(`http://localhost:5000/api/posts/${post.id}`, "DELETE");
+    } catch (err) {
+      console.warn(err);
+    }
+    router.push(`/user/${authCtx.userId}`);
   }
 
   return (
     <React.Fragment>
+      <ErrorModal error={error} onClear={clearError} />
       <Modal
         show={showMap}
         onCancel={closeMapHandler}
@@ -66,10 +78,13 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
         </p>
       </Modal>
       <li className={classes.placeItem}>
+        {isLoading && <LoadingSpinner asOverlay={true} />}
         <div className={classes.content}>
-          <div className={classes.image}>
-            <img alt={post.title} src={post.image}></img>
-          </div>
+          <Link href={`/posts/${post.id}`} passHref>
+            <div className={classes.image}>
+              <img alt={post.title} src={post.image}></img>
+            </div>
+          </Link>
           <div className={classes.info}>
             <h2>{post.title}</h2>
             <h3>{post.address}</h3>
@@ -79,10 +94,10 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
             <Button onClick={openMapHandler} inverse={true}>
               VIEW ON MAP
             </Button>
-            {authCtx.isLoggedIn && (
+            {authCtx.userId == post.creatorId && (
               <Button href={`/posts/edit/${post.id}`}>EDIT</Button>
             )}
-            {authCtx.isLoggedIn && (
+            {authCtx.userId == post.creatorId && (
               <Button onClick={showDeleteModal} danger={true}>
                 DELETE
               </Button>

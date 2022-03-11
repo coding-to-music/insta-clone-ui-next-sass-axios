@@ -31,7 +31,7 @@ const NewPost: React.FC = () => {
     let response;
     try {
       response = await sendRequest(
-        "http://localhost:5000/api/places/",
+        "http://localhost:5000/api/posts/",
         "POST",
         JSON.stringify({
           title: formState.inputs.title.value,
@@ -41,10 +41,10 @@ const NewPost: React.FC = () => {
         }),
         { "Content-Type": "application/json" }
       );
+      router.push(`/posts/${response.id}`);
     } catch (err) {
       console.warn(err);
     }
-    router.push(`/posts/${response.id}`);
   };
 
   return (

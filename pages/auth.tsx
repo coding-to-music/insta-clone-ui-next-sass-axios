@@ -14,6 +14,7 @@ import ErrorModal from "../components/shared/UIElements/ErrorModal";
 import LoadingSpinner from "../components/shared/UIElements/LoadingSpinner";
 import { useHttpClient } from "../components/shared/hooks/http-hook";
 import { NextPage } from "next";
+import ImageUpload from "../components/shared/FormElements/ImageUpload";
 
 const Auth: NextPage = () => {
   const router = useRouter();
@@ -24,7 +25,6 @@ const Auth: NextPage = () => {
     {
       email: { value: "", isValid: false },
       password: { value: "", isValid: false },
-      //   login: { value: "", isValid: true },
     },
     true
   );
@@ -100,6 +100,8 @@ const Auth: NextPage = () => {
               valid={formState.inputs.username.isValid}
             />
           )}
+
+          {!isLogin && <ImageUpload center={true} id='img id' />}
           <Input
             id='email'
             element='input'
