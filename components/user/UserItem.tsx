@@ -10,7 +10,10 @@ const UserItem: React.FC<{ user: UserObj }> = ({ user }) => {
         <Link href={`/user/${user.id}`} passHref>
           <div className={classes.innerWrapper}>
             <div className={classes.avatar}>
-              <Avatar alt={user.username} image={user.image} />
+              <Avatar
+                alt={user.username}
+                image={`http://localhost:5000/${user.image}`}
+              />
             </div>
             <div className={classes.info}>
               <h2>{user.username}</h2>

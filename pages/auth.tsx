@@ -49,15 +49,15 @@ const Auth: NextPage = () => {
       } catch (err) {}
     } else {
       try {
+        const formData = new FormData();
+        formData.append("username", formState.inputs.username.value);
+        formData.append("email", formState.inputs.email.value);
+        formData.append("password", formState.inputs.password.value);
+        formData.append("image", formState.inputs.image.value);
         responseData = await sendRequest(
           "http://localhost:5000/api/users/signup",
           "POST",
-          {
-            username: formState.inputs.username.value,
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-          },
-          { "Content-Type": "application/json" }
+          formData
         );
         authCtx.login(responseData.user.id);
         router.push("/");
@@ -69,12 +69,16 @@ const Auth: NextPage = () => {
   const changeModeHandler = () => {
     if (!isLogin) {
       setFormData(
-        { ...formState.inputs, username: undefined },
+        { ...formState.inputs, username: undefined, image: undefined },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
     } else {
       setFormData(
-        { ...formState.inputs, username: { value: "", isValid: false } },
+        {
+          ...formState.inputs,
+          username: { value: "", isValid: false },
+          image: { value: null, isValid: false },
+        },
         false
       );
     }
@@ -100,34 +104,47 @@ const Auth: NextPage = () => {
               valid={formState.inputs.username.isValid}
             />
           )}
+          <div className={classes.imageContainer}>
+            {!isLogin && (
+              <div className={classes.onlyImage}>
+                <ImageUpload
+                  errorText='Please choose a valid image'
+                  onInput={inputHandler}
+                  center={true}
+                  id='image'
+                />
+              </div>
+            )}
 
-          {!isLogin && <ImageUpload center={true} id='img id' />}
-          <Input
-            id='email'
-            element='input'
-            label='E-Mail'
-            validators={[VALIDATOR_EMAIL()]}
-            errorText='Please enter a valid email address'
-            onInput={inputHandler}
-            value={formState.inputs.email.value}
-            valid={formState.inputs.email.isValid}
-          />
-          <Input
-            id='password'
-            element='input'
-            label='Password'
-            validators={[VALIDATOR_MINLENGTH(6)]}
-            errorText='Password is invalid, must be at least 6 characters'
-            onInput={inputHandler}
-            value={formState.inputs.password.value}
-            valid={formState.inputs.password.isValid}
-          />
-          <Button type='submit' disabled={!formState.isValid}>
-            {isLogin ? "LOGIN" : "CREATE"}
-          </Button>
-          <Button type='button' inverse={true} onClick={changeModeHandler}>
-            {isLogin ? "Need to make an account?" : "Already have an account?"}
-          </Button>
+            <div className={classes.imageContainerRight}>
+              <Input
+                id='email'
+                element='input'
+                label='E-Mail'
+                validators={[VALIDATOR_EMAIL()]}
+                errorText='Please enter a valid email address'
+                onInput={inputHandler}
+                value={formState.inputs.email.value}
+                valid={formState.inputs.email.isValid}
+              />
+              <Input
+                id='password'
+                element='input'
+                label='Password'
+                validators={[VALIDATOR_MINLENGTH(6)]}
+                errorText='Password is invalid, must be at least 6 characters'
+                onInput={inputHandler}
+                value={formState.inputs.password.value}
+                valid={formState.inputs.password.isValid}
+              />
+              <Button type='submit' disabled={!formState.isValid}>
+                {isLogin ? "LOGIN" : "CREATE"}
+              </Button>
+              <Button type='button' inverse={true} onClick={changeModeHandler}>
+                {isLogin ? "No account?" : "Have an account?"}
+              </Button>
+            </div>
+          </div>
         </form>
       </div>
     </React.Fragment>

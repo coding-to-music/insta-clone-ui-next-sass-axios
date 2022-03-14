@@ -7,6 +7,7 @@ module.exports = {
       "images.unsplash.com",
       "ibb.co",
       "monstar-lab.com",
+      "localhost",
       "*",
     ],
   },

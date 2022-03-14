@@ -82,7 +82,10 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
         <div className={classes.content}>
           <Link href={`/posts/${post.id}`} passHref>
             <div className={classes.image}>
-              <img alt={post.title} src={post.image}></img>
+              <img
+                alt={post.title}
+                src={`http://localhost:5000/${post.image}`}
+              ></img>
             </div>
           </Link>
           <div className={classes.info}>

@@ -12,7 +12,7 @@ import { AuthContext } from "../../components/shared/context/auth-context";
 import ErrorModal from "../../components/shared/UIElements/ErrorModal";
 import LoadingSpinner from "../../components/shared/UIElements/LoadingSpinner";
 import { useRouter } from "next/router";
-
+import ImageUpload from "../../components/shared/FormElements/ImageUpload";
 const NewPost: React.FC = () => {
   const auth = useContext(AuthContext);
   const router = useRouter();
@@ -22,6 +22,7 @@ const NewPost: React.FC = () => {
       title: { value: "", isValid: false },
       description: { value: "", isValid: false },
       address: { value: "", isValid: false },
+      image: { value: null, isValid: false },
     },
     false
   );
@@ -30,16 +31,16 @@ const NewPost: React.FC = () => {
     e.preventDefault();
     let response;
     try {
+      const formData = new FormData();
+      formData.append("image", formState.inputs.image.value);
+      formData.append("title", formState.inputs.title.value);
+      formData.append("description", formState.inputs.description.value);
+      formData.append("address", formState.inputs.address.value);
+      formData.append("creatorId", auth.userId!);
       response = await sendRequest(
         "http://localhost:5000/api/posts/",
         "POST",
-        JSON.stringify({
-          title: formState.inputs.title.value,
-          description: formState.inputs.description.value,
-          address: formState.inputs.address.value,
-          creatorId: auth.userId,
-        }),
-        { "Content-Type": "application/json" }
+        formData
       );
       router.push(`/posts/${response.id}`);
     } catch (err) {
@@ -52,6 +53,14 @@ const NewPost: React.FC = () => {
       <ErrorModal error={error} onClear={clearError} />
       {isLoading && <LoadingSpinner asOverlay={true} />}
       <form className={classes.placeForm} onSubmit={placeSubmitHandler}>
+        <div className={classes.imagePrev}>
+          <ImageUpload
+            errorText='Please choose a valid image'
+            onInput={inputHandler}
+            center={true}
+            id='image'
+          />
+        </div>
         <Input
           id='title'
           label='Title'
