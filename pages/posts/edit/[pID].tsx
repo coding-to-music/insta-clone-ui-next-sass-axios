@@ -7,18 +7,20 @@ import {
   VALIDATOR_MINLENGTH,
 } from "../../../components/shared/Util/validators";
 import useForm from "../../../components/shared/hooks/form-hook";
-import React from "react";
+import React, { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useHttpClient } from "../../../components/shared/hooks/http-hook";
 import { useRouter } from "next/router";
 import ErrorModal from "../../../components/shared/UIElements/ErrorModal";
 import LoadingSpinner from "../../../components/shared/UIElements/LoadingSpinner";
+import { AuthContext } from "../../../components/shared/context/auth-context";
+import { useContext } from "react";
 
 const Update: React.FC<{ data: postObj; myerror: any }> = (props) => {
   const router = useRouter();
-
+  const auth = useContext(AuthContext);
+  const [editError, setEditError] = useState<any>(null);
   const { pID } = router.query;
-  console.log(pID);
   const { isLoading, error, clearError, sendRequest } = useHttpClient();
   const [formState, inputHandler] = useForm(
     {
@@ -28,6 +30,10 @@ const Update: React.FC<{ data: postObj; myerror: any }> = (props) => {
     },
     true
   );
+
+  const editErrorHandler = () => {
+    setEditError(null);
+  };
 
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -41,13 +47,16 @@ const Update: React.FC<{ data: postObj; myerror: any }> = (props) => {
           address: formState.inputs.address.value,
           description: formState.inputs.description.value,
         },
-        { "Content-Type": "application/json" }
+        {
+          "Content-Type": "application/json",
+          Authorization: `BEARER ${auth.token}`,
+        }
       );
-    } catch (err) {
-      console.warn(err);
+      router.push(`/posts/${pID}`);
+    } catch (err: any) {
+      console.log(err.message);
+      setEditError("hold up");
     }
-    router.push(`/posts/${pID}`);
-    console.log(responseData);
   };
 
   const element =

@@ -2,35 +2,44 @@ import React, { useCallback, useState } from "react";
 
 type AuthContextObj = {
   isLoggedIn: boolean;
+  token: string | null;
   userId: string | null;
-  login: (id: string) => void;
+  login: (uid: string, token: string) => void;
   logout: () => void;
 };
 
 //creating the actual store
 export const AuthContext = React.createContext<AuthContextObj>({
   isLoggedIn: false,
+  token: null,
   userId: null,
-  login: (uid: string) => {},
+  login: (uid: string, token: string) => {},
   logout: () => {},
 });
 
 const AuthContextProvider: React.FC = (props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(null);
   const [userId, setUserId] = useState<string | null>(null);
 
-  const login = useCallback((uid) => {
-    setIsLoggedIn(true);
+  const login = useCallback((uid, token) => {
+    setToken(token);
+    //only text, no objs can be stored in localstorage, stringify circumvents this
+    localStorage.setItem(
+      "userData",
+      JSON.stringify({ userId: uid, token: token })
+    );
     setUserId(uid);
   }, []);
 
   const logout = useCallback(() => {
-    setIsLoggedIn(false);
+    setToken(null);
     setUserId(null);
+    localStorage.removeItem("userData");
   }, []);
 
   const contextValue: AuthContextObj = {
-    isLoggedIn: isLoggedIn,
+    isLoggedIn: !!token,
+    token: token,
     userId: userId,
     login: login,
     logout: logout,

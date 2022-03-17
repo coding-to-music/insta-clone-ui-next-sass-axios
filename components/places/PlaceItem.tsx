@@ -14,7 +14,7 @@ import Link from "next/link";
 
 const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
   const router = useRouter();
-  const authCtx = useContext(AuthContext);
+  const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -35,11 +35,16 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
   async function confirmDeleteModal() {
     setShowConfirmModal(false);
     try {
-      await sendRequest(`http://localhost:5000/api/posts/${post.id}`, "DELETE");
+      await sendRequest(
+        `http://localhost:5000/api/posts/${post.id}`,
+        "DELETE",
+        null,
+        { Authorization: `BEARER ${auth.token}` }
+      );
     } catch (err) {
       console.warn(err);
     }
-    router.push(`/user/${authCtx.userId}`);
+    router.push(`/user/${auth.userId}`);
   }
 
   return (
@@ -97,10 +102,10 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
             <Button onClick={openMapHandler} inverse={true}>
               VIEW ON MAP
             </Button>
-            {authCtx.userId == post.creatorId && (
+            {auth.userId == post.creatorId && (
               <Button href={`/posts/edit/${post.id}`}>EDIT</Button>
             )}
-            {authCtx.userId == post.creatorId && (
+            {auth.userId == post.creatorId && (
               <Button onClick={showDeleteModal} danger={true}>
                 DELETE
               </Button>

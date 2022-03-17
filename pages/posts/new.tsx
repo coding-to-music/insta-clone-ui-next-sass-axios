@@ -13,6 +13,7 @@ import ErrorModal from "../../components/shared/UIElements/ErrorModal";
 import LoadingSpinner from "../../components/shared/UIElements/LoadingSpinner";
 import { useRouter } from "next/router";
 import ImageUpload from "../../components/shared/FormElements/ImageUpload";
+
 const NewPost: React.FC = () => {
   const auth = useContext(AuthContext);
   const router = useRouter();
@@ -37,10 +38,12 @@ const NewPost: React.FC = () => {
       formData.append("description", formState.inputs.description.value);
       formData.append("address", formState.inputs.address.value);
       formData.append("creatorId", auth.userId!);
+      console.log(auth.token);
       response = await sendRequest(
         "http://localhost:5000/api/posts/",
         "POST",
-        formData
+        formData,
+        { Authorization: `BEARER ${auth.token}` }
       );
       router.push(`/posts/${response.id}`);
     } catch (err) {
@@ -55,7 +58,7 @@ const NewPost: React.FC = () => {
       <form className={classes.placeForm} onSubmit={placeSubmitHandler}>
         <div className={classes.imagePrev}>
           <ImageUpload
-            errorText='Please choose a valid image'
+            errorText='PNG/JPG only please.'
             onInput={inputHandler}
             center={true}
             id='image'

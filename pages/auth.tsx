@@ -44,7 +44,8 @@ const Auth: NextPage = () => {
           { "Content-Type": "application/json" }
         );
 
-        authCtx.login(responseData.user.id);
+        authCtx.login(responseData.userId, responseData.token);
+        console.log(responseData.token);
         router.push("/");
       } catch (err) {}
     } else {
@@ -59,11 +60,11 @@ const Auth: NextPage = () => {
           "POST",
           formData
         );
-        authCtx.login(responseData.user.id);
+        authCtx.login(responseData.userId, responseData.token);
+        console.log(responseData.token);
         router.push("/");
       } catch (err) {}
     }
-    console.log(responseData);
   };
 
   const changeModeHandler = () => {

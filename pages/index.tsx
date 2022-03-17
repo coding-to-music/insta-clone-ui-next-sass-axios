@@ -1,12 +1,25 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import Users from "./Users";
 import axios, { AxiosError } from "axios";
 import UserObj from "../models/userObj";
 import classes from "../pages/posts/NewPost.module.scss";
+import { AuthContext } from "../components/shared/context/auth-context";
 
 const Home: NextPage<{ data: UserObj[]; myerror: any }> = (props) => {
+  const auth = useContext(AuthContext);
+
+  useEffect(() => {
+    let storedUserData;
+    if (localStorage.getItem("userData")) {
+      storedUserData = JSON.parse(localStorage.getItem("userData")!);
+    }
+    if (storedUserData && storedUserData.token) {
+      auth.login(storedUserData.userId, storedUserData.token);
+    }
+  }, [auth]);
+
   return (
     <React.Fragment>
       <Head>
@@ -38,7 +51,7 @@ export async function getStaticProps() {
     data = await response.data;
   } catch (err) {
     const error = err as AxiosError;
-    myerror = error.response?.data.message;
+    myerror = error.response?.data.message || null;
   }
 
   return { props: { data, myerror }, revalidate: 30 };
