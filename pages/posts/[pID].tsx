@@ -37,7 +37,6 @@ export async function getServerSideProps(context: any) {
       method: "GET",
     });
     data = await response.data;
-    console.log(data);
   } catch (err) {
     const error = err as AxiosError;
     myerror = error.response?.data.message;

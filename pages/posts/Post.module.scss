@@ -1,5 +1,8 @@
 .wrapper {
   display: flex;
   margin: auto;
-  width: 85vw;
+  width: auto;
+  max-width: 85vw;
+  height: auto;
+  max-height: 80vh;
 }

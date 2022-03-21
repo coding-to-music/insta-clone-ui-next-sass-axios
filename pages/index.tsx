@@ -5,21 +5,8 @@ import Users from "./Users";
 import axios, { AxiosError } from "axios";
 import UserObj from "../models/userObj";
 import classes from "../pages/posts/NewPost.module.scss";
-import { AuthContext } from "../components/shared/context/auth-context";
 
 const Home: NextPage<{ data: UserObj[]; myerror: any }> = (props) => {
-  const auth = useContext(AuthContext);
-
-  useEffect(() => {
-    let storedUserData;
-    if (localStorage.getItem("userData")) {
-      storedUserData = JSON.parse(localStorage.getItem("userData")!);
-    }
-    if (storedUserData && storedUserData.token) {
-      auth.login(storedUserData.userId, storedUserData.token);
-    }
-  }, [auth]);
-
   return (
     <React.Fragment>
       <Head>

@@ -14,9 +14,12 @@ const PlaceList: React.FC<{ items: postObj[] }> = (props) => {
   }
   return (
     <ul className={classes.placeList}>
-      {props.items.map((post) => (
-        <PlaceItem key={post.id} post={post} />
-      ))}
+      {props.items
+        .slice(0)
+        .reverse()
+        .map((post) => (
+          <PlaceItem key={post.id} post={post} />
+        ))}
     </ul>
   );
 };

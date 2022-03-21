@@ -19,9 +19,9 @@ import { useContext } from "react";
 const Update: React.FC<{ data: postObj; myerror: any }> = (props) => {
   const router = useRouter();
   const auth = useContext(AuthContext);
-  const [editError, setEditError] = useState<any>(null);
   const { pID } = router.query;
-  const { isLoading, error, clearError, sendRequest } = useHttpClient();
+  const { isLoading, error, clearError, sendRequest, setError } =
+    useHttpClient();
   const [formState, inputHandler] = useForm(
     {
       title: { value: props.data?.title, isValid: true },
@@ -30,10 +30,6 @@ const Update: React.FC<{ data: postObj; myerror: any }> = (props) => {
     },
     true
   );
-
-  const editErrorHandler = () => {
-    setEditError(null);
-  };
 
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -53,10 +49,7 @@ const Update: React.FC<{ data: postObj; myerror: any }> = (props) => {
         }
       );
       router.push(`/posts/${pID}`);
-    } catch (err: any) {
-      console.log(err.message);
-      setEditError("hold up");
-    }
+    } catch (err) {}
   };
 
   const element =

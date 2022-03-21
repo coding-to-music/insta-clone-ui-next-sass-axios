@@ -1,10 +1,11 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
+import useAuth from "../hooks/auth-hook";
 
 type AuthContextObj = {
   isLoggedIn: boolean;
   token: string | null;
   userId: string | null;
-  login: (uid: string, token: string) => void;
+  login: (uid: string, token: string, expirationDate?: Date) => void;
   logout: () => void;
 };
 
@@ -13,29 +14,12 @@ export const AuthContext = React.createContext<AuthContextObj>({
   isLoggedIn: false,
   token: null,
   userId: null,
-  login: (uid: string, token: string) => {},
+  login: (uid: string, token: string, expirationDate?: Date) => {},
   logout: () => {},
 });
 
 const AuthContextProvider: React.FC = (props) => {
-  const [token, setToken] = useState(null);
-  const [userId, setUserId] = useState<string | null>(null);
-
-  const login = useCallback((uid, token) => {
-    setToken(token);
-    //only text, no objs can be stored in localstorage, stringify circumvents this
-    localStorage.setItem(
-      "userData",
-      JSON.stringify({ userId: uid, token: token })
-    );
-    setUserId(uid);
-  }, []);
-
-  const logout = useCallback(() => {
-    setToken(null);
-    setUserId(null);
-    localStorage.removeItem("userData");
-  }, []);
+  const { token, userId, login, logout } = useAuth();
 
   const contextValue: AuthContextObj = {
     isLoggedIn: !!token,

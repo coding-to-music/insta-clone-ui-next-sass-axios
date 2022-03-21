@@ -11,11 +11,13 @@ import ErrorModal from "../shared/UIElements/ErrorModal";
 import LoadingSpinner from "../shared/UIElements/LoadingSpinner";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 
 const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
   const router = useRouter();
   const auth = useContext(AuthContext);
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const { isLoading, error, sendRequest, clearError, setError } =
+    useHttpClient();
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -86,11 +88,12 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
         {isLoading && <LoadingSpinner asOverlay={true} />}
         <div className={classes.content}>
           <Link href={`/posts/${post.id}`} passHref>
-            <div className={classes.image}>
+            <div className={classes.imageContainer}>
               <img
                 alt={post.title}
                 src={`http://localhost:5000/${post.image}`}
-              ></img>
+                className={classes.images}
+              />
             </div>
           </Link>
           <div className={classes.info}>
