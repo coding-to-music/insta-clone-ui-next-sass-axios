@@ -12,7 +12,7 @@ const UserItem: React.FC<{ user: UserObj }> = ({ user }) => {
             <div className={classes.avatar}>
               <Avatar
                 alt={user.username}
-                image={`http://localhost:5000/${user.image}`}
+                image={`${process.env.SERVER}/${user.image}`}
               />
             </div>
             <div className={classes.info}>

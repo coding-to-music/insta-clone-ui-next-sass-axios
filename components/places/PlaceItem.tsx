@@ -2,7 +2,7 @@
 import postObj from "../../models/postObj";
 import classes from "./PlaceItem.module.scss";
 import Button from "../shared/FormElements/Button";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Modal from "../shared/UIElements/Modal";
 import Map from "../shared/UIElements/Map";
 import { AuthContext } from "../shared/context/auth-context";
@@ -11,15 +11,38 @@ import ErrorModal from "../shared/UIElements/ErrorModal";
 import LoadingSpinner from "../shared/UIElements/LoadingSpinner";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import Image from "next/image";
+import Avatar from "../shared/UIElements/Avatar";
+import UserObj from "../../models/userObj";
 
 const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
   const router = useRouter();
   const auth = useContext(AuthContext);
-  const { isLoading, error, sendRequest, clearError, setError } =
-    useHttpClient();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const [user, setUser] = useState<UserObj>();
+  const {
+    isLoading: avaLoading,
+    error: avaError,
+    sendRequest: avaSendRequest,
+    clearError: avaClearError,
+  } = useHttpClient();
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await avaSendRequest(
+          `${process.env.SERVER}/api/users/${post.creatorId}`,
+          "GET"
+        );
+        setUser(response);
+        console.log(response);
+      } catch (err) {
+        console.warn(err);
+      }
+    };
+    fetchUser();
+  }, [avaSendRequest, post.creatorId]);
 
   const openMapHandler = () => {
     setShowMap(true);
@@ -38,7 +61,7 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
     setShowConfirmModal(false);
     try {
       await sendRequest(
-        `http://localhost:5000/api/posts/${post.id}`,
+        `${process.env.SERVER}/api/posts/${post.id}`,
         "DELETE",
         null,
         { Authorization: `BEARER ${auth.token}` }
@@ -86,19 +109,36 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
       </Modal>
       <li className={classes.placeItem}>
         {isLoading && <LoadingSpinner asOverlay={true} />}
+        <div className={classes.headerSection}>
+          {avaLoading && <LoadingSpinner asOverlay={true} />}
+          <a href={`/user/${user?.id}`}>
+            <Avatar
+              width={50}
+              height={50}
+              alt={user?.username || `Loading...`}
+              image={`${process.env.SERVER}/${user?.image}`}
+            />
+          </a>
+          <div className={classes.headerSub}>
+            <h4>{user?.username}</h4>
+            <h6 style={{ cursor: "pointer" }} onClick={openMapHandler}>
+              {post.address}
+            </h6>
+          </div>
+        </div>
         <div className={classes.content}>
           <Link href={`/posts/${post.id}`} passHref>
             <div className={classes.imageContainer}>
               <img
                 alt={post.title}
-                src={`http://localhost:5000/${post.image}`}
+                src={`${process.env.SERVER}/${post.image}`}
                 className={classes.images}
               />
             </div>
           </Link>
           <div className={classes.info}>
             <h2>{post.title}</h2>
-            <h3>{post.address}</h3>
+
             <p>{post.description}</p>
           </div>
           <div className={classes.actions}>

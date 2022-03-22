@@ -39,7 +39,7 @@ const NewPost: React.FC = () => {
       formData.append("address", formState.inputs.address.value);
       console.log(auth.token);
       response = await sendRequest(
-        "http://localhost:5000/api/posts/",
+        `${process.env.SERVER}/api/posts/`,
         "POST",
         formData,
         { Authorization: `BEARER ${auth.token}` }
@@ -91,7 +91,7 @@ const NewPost: React.FC = () => {
           onInput={inputHandler}
         />
         <Button type='submit' disabled={!formState.isValid}>
-          ADD PLACE
+          POST!
         </Button>
       </form>
     </React.Fragment>

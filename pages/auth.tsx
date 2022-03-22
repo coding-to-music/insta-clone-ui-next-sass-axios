@@ -35,7 +35,7 @@ const Auth: NextPage = () => {
     if (isLogin) {
       try {
         responseData = await sendRequest(
-          "http://localhost:5000/api/users/login",
+          `${process.env.SERVER}/api/users/login`,
           "POST",
           {
             email: formState.inputs.email.value,
@@ -45,7 +45,6 @@ const Auth: NextPage = () => {
         );
 
         authCtx.login(responseData.userId, responseData.token);
-        console.log(responseData.token);
         router.push("/");
       } catch (err) {}
     } else {
@@ -56,12 +55,11 @@ const Auth: NextPage = () => {
         formData.append("password", formState.inputs.password.value);
         formData.append("image", formState.inputs.image.value);
         responseData = await sendRequest(
-          "http://localhost:5000/api/users/signup",
+          `${process.env.SERVER}/api/users/signup`,
           "POST",
           formData
         );
         authCtx.login(responseData.userId, responseData.token);
-        console.log(responseData.token);
         router.push("/");
       } catch (err) {}
     }

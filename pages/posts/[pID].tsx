@@ -33,7 +33,7 @@ export async function getServerSideProps(context: any) {
   let myerror = null;
   try {
     const response = await axios({
-      url: `http://localhost:5000/api/posts/${postID}`,
+      url: `${process.env.SERVER}/api/posts/${postID}`,
       method: "GET",
     });
     data = await response.data;

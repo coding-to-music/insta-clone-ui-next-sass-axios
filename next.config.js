@@ -13,6 +13,7 @@ module.exports = {
   },
   env: {
     API_KEY: process.env.API_KEY,
+    SERVER: process.env.SERVER,
   },
   reactStrictMode: true,
 };

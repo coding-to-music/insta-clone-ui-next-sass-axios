@@ -15,7 +15,7 @@ const NavLinks: React.FC = (props) => {
   return (
     <ul className={classes.navLinks}>
       <li>
-        <Link href='/'>BROWSE USERS</Link>
+        <Link href='/users'>BROWSE USERS</Link>
       </li>
       {auth.isLoggedIn && (
         <li>

@@ -3,8 +3,9 @@ import UserObj from "../models/userObj";
 import { useEffect, useState } from "react";
 import React from "react";
 import { NextPage } from "next";
+import axios, { AxiosError } from "axios";
 
-const Users: NextPage<{ data: UserObj[] }> = (props) => {
+const Users: NextPage<{ data: UserObj[]; myerror: any }> = (props) => {
   const [users, setUsers] = useState<UserObj[]>([]);
 
   useEffect(() => {
@@ -17,3 +18,20 @@ const Users: NextPage<{ data: UserObj[] }> = (props) => {
 };
 
 export default Users;
+
+export async function getStaticProps() {
+  let data = null;
+  let myerror = null;
+  try {
+    const response = await axios({
+      url: `${process.env.SERVER}/api/users`,
+      method: "GET",
+    });
+    data = await response.data;
+  } catch (err) {
+    const error = err as AxiosError;
+    myerror = error.response?.data.message || null;
+  }
+
+  return { props: { data, myerror }, revalidate: 30 };
+}

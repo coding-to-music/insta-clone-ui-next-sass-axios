@@ -7,7 +7,7 @@ import {
   VALIDATOR_MINLENGTH,
 } from "../../../components/shared/Util/validators";
 import useForm from "../../../components/shared/hooks/form-hook";
-import React, { useState } from "react";
+import React from "react";
 import axios, { AxiosError } from "axios";
 import { useHttpClient } from "../../../components/shared/hooks/http-hook";
 import { useRouter } from "next/router";
@@ -20,8 +20,7 @@ const Update: React.FC<{ data: postObj; myerror: any }> = (props) => {
   const router = useRouter();
   const auth = useContext(AuthContext);
   const { pID } = router.query;
-  const { isLoading, error, clearError, sendRequest, setError } =
-    useHttpClient();
+  const { isLoading, error, clearError, sendRequest } = useHttpClient();
   const [formState, inputHandler] = useForm(
     {
       title: { value: props.data?.title, isValid: true },
@@ -36,7 +35,7 @@ const Update: React.FC<{ data: postObj; myerror: any }> = (props) => {
     let responseData;
     try {
       responseData = await sendRequest(
-        `http://localhost:5000/api/posts/${pID}`,
+        `${process.env.SERVER}/api/posts/${pID}`,
         "PATCH",
         {
           title: formState.inputs.title.value,
@@ -111,7 +110,7 @@ export async function getServerSideProps(context: any) {
 
   try {
     const response = await axios({
-      url: `http://localhost:5000/api/posts/${postID}`,
+      url: `${process.env.SERVER}/api/posts/${postID}`,
       method: "GET",
     });
     data = await response.data;
