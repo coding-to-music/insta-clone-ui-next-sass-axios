@@ -19,7 +19,7 @@ const Users: NextPage<{ data: UserObj[]; myerror: any }> = (props) => {
 
 export default Users;
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   let data = null;
   let myerror = null;
   try {
@@ -33,5 +33,5 @@ export async function getStaticProps() {
     myerror = error.response?.data.message || null;
   }
 
-  return { props: { data, myerror }, revalidate: 30 };
+  return { props: { data, myerror } };
 }
