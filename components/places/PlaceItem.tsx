@@ -36,7 +36,6 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
           "GET"
         );
         setUser(response);
-        console.log(response);
       } catch (err) {
         console.warn(err);
       }
