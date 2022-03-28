@@ -8,6 +8,7 @@ module.exports = {
       "ibb.co",
       "monstar-lab.com",
       "localhost",
+      "insta-sham.s3.us-east-2.amazonaws.com",
       "*",
     ],
   },

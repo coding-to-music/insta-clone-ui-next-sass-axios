@@ -37,7 +37,6 @@ const NewPost: React.FC = () => {
       formData.append("title", formState.inputs.title.value);
       formData.append("description", formState.inputs.description.value);
       formData.append("address", formState.inputs.address.value);
-      console.log(auth.token);
       response = await sendRequest(
         `${process.env.SERVER}/api/posts/`,
         "POST",

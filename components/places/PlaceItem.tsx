@@ -111,12 +111,16 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
         <div className={classes.headerSection}>
           {avaLoading && <LoadingSpinner asOverlay={true} />}
           <a href={`/user/${user?.id}`}>
-            <Avatar
-              width={50}
-              height={50}
-              alt={user?.username || `Loading...`}
-              image={`${process.env.SERVER}/${user?.image}`}
-            />
+            {user?.image ? (
+              <Avatar
+                width={50}
+                height={50}
+                alt={user?.username || `Loading...`}
+                image={user.image}
+              />
+            ) : (
+              <LoadingSpinner asOverlay={false} />
+            )}
           </a>
           <div className={classes.headerSub}>
             <h4>{user?.username}</h4>
@@ -130,7 +134,7 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
             <div className={classes.imageContainer}>
               <img
                 alt={post.title}
-                src={`${process.env.SERVER}/${post.image}`}
+                src={post.image}
                 className={classes.images}
               />
             </div>
