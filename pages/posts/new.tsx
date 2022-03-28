@@ -17,7 +17,8 @@ import ImageUpload from "../../components/shared/FormElements/ImageUpload";
 const NewPost: React.FC = () => {
   const auth = useContext(AuthContext);
   const router = useRouter();
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const { isLoading, error, sendRequest, clearError, setError } =
+    useHttpClient();
   const [formState, inputHandler] = useForm(
     {
       title: { value: "", isValid: false },
@@ -44,8 +45,8 @@ const NewPost: React.FC = () => {
         { Authorization: `BEARER ${auth.token}` }
       );
       router.push(`/posts/${response.id}`);
-    } catch (err) {
-      console.warn(err);
+    } catch (err: any) {
+      setError(err.message as string);
     }
   };
 
