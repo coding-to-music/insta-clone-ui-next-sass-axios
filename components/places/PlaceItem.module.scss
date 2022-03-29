@@ -6,6 +6,7 @@
   flex-direction: column;
   width: 100%;
   height: auto;
+  caret-color: transparent;
 
   .headerSection {
     display: flex;
@@ -67,6 +68,7 @@
 }
 .modalActions {
   text-align: right;
+  padding: 0.2rem;
 }
 .message {
   margin: 0.5rem;

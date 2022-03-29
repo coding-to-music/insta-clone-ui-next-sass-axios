@@ -7,6 +7,7 @@
   flex-direction: column;
   justify-content: space-around;
   margin-right: 2rem;
+
   cursor: pointer;
   span {
     display: block;
@@ -17,6 +18,8 @@
 }
 
 .title {
+  font-family: "Permanent Marker", cursive;
+  font-weight: 100;
   a {
     letter-spacing: 0.15rem;
     text-decoration: none;

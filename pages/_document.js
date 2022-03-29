@@ -9,7 +9,14 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head />
+        <Head>
+          <link rel='preconnect' href='https://fonts.googleapis.com' />
+          <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin />
+          <link
+            href='https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap'
+            rel='stylesheet'
+          />
+        </Head>
         <div id='drawerportal' />
         <div id='backdrop' />
         <body>
