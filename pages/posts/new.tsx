@@ -46,7 +46,7 @@ const NewPost: React.FC = () => {
       );
       router.push(`/posts/${response.id}`);
     } catch (err: any) {
-      setError(err.message as string);
+      setError("File upload failed. Image may be too large.");
     }
   };
 
