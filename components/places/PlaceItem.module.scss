@@ -1,12 +1,15 @@
 .placeItem {
   margin: auto;
-  border: 1px solid rgb(87, 87, 87);
-  background-color: #2b2b2b;
+  border: 1px solid rgba(87, 87, 87, 0);
+  background-color: #2b2b2bab;
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 0.3rem;
+  border-radius: 0.3rem;
   height: auto;
   caret-color: transparent;
+  box-shadow: 0.2rem 0.2rem #0000006c;
 
   .headerSection {
     display: flex;
@@ -31,11 +34,7 @@
     padding: 0.5rem;
     padding-left: 0.7rem;
     text-align: left;
-    h2,
-    h3,
-    p {
-      margin: 0 0 0.5rem 0;
-    }
+
     h3 {
       color: rgb(253, 227, 189);
       text-transform: capitalize;
@@ -46,6 +45,7 @@
     width: 100%;
     img {
       background-color: #000000;
+      box-shadow: 0rem 0rem 0.2rem 0.1rem #0000006c;
       width: 100%;
       height: auto;
       max-height: 70vh;
@@ -56,7 +56,7 @@
   .actions {
     padding: 0.5rem;
     text-align: center;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid rgba(204, 204, 204, 0.397);
     button,
     a {
       margin: 0.1rem;
@@ -68,7 +68,6 @@
 }
 .modalActions {
   text-align: right;
-  padding: 0.2rem;
 }
 .message {
   margin: 0.5rem;

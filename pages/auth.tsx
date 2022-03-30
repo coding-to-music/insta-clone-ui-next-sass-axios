@@ -139,7 +139,7 @@ const Auth: NextPage = () => {
               <Button type='submit' disabled={!formState.isValid}>
                 {isLogin ? "LOGIN" : "CREATE"}
               </Button>
-              <span className={classes.gap} />
+              <span className={classes.gap}>.</span>
               <Button type='button' inverse={true} onClick={changeModeHandler}>
                 {isLogin ? "No account?" : "Have an account?"}
               </Button>
