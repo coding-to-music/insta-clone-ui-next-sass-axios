@@ -45,9 +45,7 @@ const NewPost: React.FC = () => {
         { Authorization: `BEARER ${auth.token}` }
       );
       router.push(`/posts/${response.id}`);
-    } catch (err: any) {
-      setError("File upload failed. Image may be too large.");
-    }
+    } catch (err: any) {}
   };
 
   return (
