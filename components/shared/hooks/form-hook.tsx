@@ -8,6 +8,7 @@ export interface inputsType {
   password?: { value: string | number | undefined; isValid: boolean };
   username?: { value: string | number | undefined; isValid: boolean };
   image?: { value: File | null; isValid: boolean };
+  comment?: { value: string; isValid: boolean };
 }
 
 type keyType = keyof inputsType;

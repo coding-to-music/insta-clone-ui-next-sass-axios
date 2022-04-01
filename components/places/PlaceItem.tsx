@@ -13,6 +13,9 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Avatar from "../shared/UIElements/Avatar";
 import UserObj from "../../models/userObj";
+import CommentInput from "../shared/FormElements/CommentInput";
+import useForm from "../shared/hooks/form-hook";
+import { VALIDATOR_REQUIRE } from "../../components/shared/Util/validators";
 
 const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
   const router = useRouter();
@@ -27,6 +30,14 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
   } = useHttpClient();
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const date = new Date(post.createDate);
+
+  const [formState, inputHandler] = useForm(
+    {
+      comment: { value: "", isValid: false },
+    },
+    false
+  );
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -71,6 +82,11 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
     router.push(`/user/${auth.userId}`);
   }
 
+  async function commentSubmitHandler(e: any) {
+    e.preventDefault();
+    console.log("api call to comment route");
+  }
+
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
@@ -78,7 +94,6 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
         show={showMap}
         onCancel={closeMapHandler}
         header={post.address}
-        contentClass={classes.placeItem}
         footerClass={classes.modalActions}
         footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
       >
@@ -109,24 +124,39 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
       <li className={classes.placeItem}>
         {isLoading && <LoadingSpinner asOverlay={true} />}
         <div className={classes.headerSection}>
-          {avaLoading && <LoadingSpinner asOverlay={true} />}
-          <a href={`/user/${user?.id}`}>
-            {user?.image ? (
-              <Avatar
-                width={50}
-                height={50}
-                alt={user?.username || `Loading...`}
-                image={user.image}
-              />
-            ) : (
-              <LoadingSpinner asOverlay={false} />
+          <div className={classes.headerLeft}>
+            {avaLoading && <LoadingSpinner asOverlay={true} />}
+            <a href={`/user/${user?.id}`}>
+              {user?.image ? (
+                <Avatar
+                  width={50}
+                  height={50}
+                  alt={user?.username || `Loading...`}
+                  image={user.image}
+                />
+              ) : (
+                <LoadingSpinner asOverlay={false} />
+              )}
+            </a>
+            <div className={classes.headerLeftSub}>
+              <h4>{user?.username}</h4>
+              <h6
+                style={{ cursor: "pointer", textTransform: "capitalize" }}
+                onClick={openMapHandler}
+              >
+                {post.address}
+              </h6>
+            </div>
+          </div>
+          <div className={classes.actions}>
+            {auth.userId == post.creatorId && (
+              <Button href={`/posts/edit/${post.id}`}>EDIT</Button>
             )}
-          </a>
-          <div className={classes.headerSub}>
-            <h4>{user?.username}</h4>
-            <h6 style={{ cursor: "pointer" }} onClick={openMapHandler}>
-              {post.address}
-            </h6>
+            {auth.userId == post.creatorId && (
+              <Button onClick={showDeleteModal} danger={true}>
+                DELETE
+              </Button>
+            )}
           </div>
         </div>
         <div className={classes.content}>
@@ -140,23 +170,36 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
             </div>
           </Link>
           <div className={classes.info}>
-            <h2>{post.title}</h2>
+            <div className={classes.dateTitle}>
+              <h2>{post.title}</h2>
+              <p className={classes.date}>{date.toLocaleDateString()}</p>
+            </div>
 
             <p>{post.description}</p>
           </div>
-          <div className={classes.actions}>
-            <Button onClick={openMapHandler} inverse={true}>
-              VIEW ON MAP
-            </Button>
-            {auth.userId == post.creatorId && (
-              <Button href={`/posts/edit/${post.id}`}>EDIT</Button>
-            )}
-            {auth.userId == post.creatorId && (
-              <Button onClick={showDeleteModal} danger={true}>
-                DELETE
-              </Button>
-            )}
-          </div>
+          <form
+            onSubmit={commentSubmitHandler}
+            className={classes.commentWrapper}
+          >
+            <div className={classes.input}>
+              <CommentInput
+                id='comment'
+                label='Comment'
+                errorText='Cannot be empty'
+                onInput={inputHandler}
+                element='input'
+                type='input'
+                validators={[VALIDATOR_REQUIRE()]}
+              />
+            </div>
+            <button
+              className={classes.submit}
+              type='submit'
+              disabled={!formState.isValid}
+            >
+              Post
+            </button>
+          </form>
         </div>
       </li>
     </React.Fragment>

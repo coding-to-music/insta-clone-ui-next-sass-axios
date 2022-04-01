@@ -3,6 +3,10 @@ $baackgroundshade2: #2b2b2b;
 $backgroundshade3: #555555;
 $hovershade: rgb(59, 59, 59);
 
+:root {
+  font-size: 16px;
+}
+
 html,
 body {
   padding: 0;
@@ -10,6 +14,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   background-color: $backgroundshade;
+
   color: rgb(238, 238, 238);
 }
 
@@ -22,6 +27,10 @@ a {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+h2 {
+  font-size: 1.563rem;
 }
 
 main {
@@ -63,5 +72,11 @@ ul {
     nav {
       display: block;
     }
+  }
+}
+
+@media (max-width: 680px) {
+  :root {
+    font-size: 14px;
   }
 }

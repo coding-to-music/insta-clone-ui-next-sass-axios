@@ -5,6 +5,7 @@ export default interface postObj {
   description: string;
   address: string;
   creatorId: string;
+  createDate: Date;
   coordinates: { lat: number; lng: number };
   __v?: any;
   _id?: any;

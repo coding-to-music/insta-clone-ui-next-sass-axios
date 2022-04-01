@@ -8,17 +8,20 @@
   padding: 0.3rem;
   border-radius: 0.3rem;
   height: auto;
-  caret-color: transparent;
+
   box-shadow: 0.2rem 0.2rem #0000006c;
 
   .headerSection {
     display: flex;
+    caret-color: transparent;
     flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
     align-self: start;
     margin: 0.2rem;
   }
 
-  .headerSub {
+  .headerLeftSub {
     margin-left: 0.4rem;
     display: flex;
     justify-content: center;
@@ -26,21 +29,42 @@
     flex-direction: column;
   }
 
+  .headerLeft {
+    display: flex;
+    align-self: start;
+    flex-direction: row;
+  }
+
   .content {
     padding: 0;
     width: 100%;
   }
   .info {
-    padding: 0.5rem;
-    padding-left: 0.7rem;
+    padding: 0.2rem;
+    padding-bottom: 0.4rem;
     text-align: left;
+    caret-color: transparent;
 
     h3 {
       color: rgb(253, 227, 189);
       text-transform: capitalize;
     }
+
+    .dateTitle {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    .date {
+      font-size: 0.8rem;
+      text-align: right;
+      opacity: 0.8;
+      align-self: center;
+    }
   }
+
   .imageContainer {
+    caret-color: transparent;
     cursor: pointer;
     width: 100%;
     img {
@@ -56,12 +80,41 @@
   .actions {
     padding: 0.5rem;
     text-align: center;
-    border-top: 1px solid rgba(204, 204, 204, 0.397);
+
     button,
     a {
       margin: 0.1rem;
     }
   }
+
+  .commentWrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    .input {
+      flex-grow: 2;
+    }
+    .submit {
+      font-weight: 700;
+      letter-spacing: 0.1rem;
+      background: #222222;
+      border-color: rgba(0, 0, 0, 0.657);
+      border-width: 0.1rem 0.1rem 0.1rem 0rem;
+      border-top-right-radius: 0.4rem;
+      border-bottom-right-radius: 0.4rem;
+      color: rgb(104, 113, 248);
+      transition: 0.2s;
+      font: inherit;
+      padding: 0.15rem;
+      width: 10%;
+      cursor: pointer;
+    }
+
+    .submit:disabled {
+      color: rgba(104, 114, 248, 0.376);
+    }
+  }
+
   .modalContent {
     padding: 0;
   }
