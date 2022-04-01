@@ -16,6 +16,7 @@ import UserObj from "../../models/userObj";
 import CommentInput from "../shared/FormElements/CommentInput";
 import useForm from "../shared/hooks/form-hook";
 import { VALIDATOR_REQUIRE } from "../../components/shared/Util/validators";
+import CommentsBox from "../shared/UIElements/CommentsBox";
 
 const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
   const router = useRouter();
@@ -82,9 +83,28 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
     router.push(`/user/${auth.userId}`);
   }
 
-  async function commentSubmitHandler(e: any) {
+  async function commentSubmitHandler(e: React.SyntheticEvent) {
     e.preventDefault();
-    console.log("api call to comment route");
+    let responseData;
+    try {
+      console.log(formState.inputs.comment.value);
+      console.log(post.id);
+      responseData = await sendRequest(
+        `${process.env.SERVER}/api/posts/comment/${post.id}`,
+        "POST",
+        {
+          comment: formState.inputs.comment.value,
+          postId: post.id,
+        },
+        {
+          "Content-Type": "application/json",
+          Authorization: `BEARER ${auth.token}`,
+        }
+      );
+      console.log(responseData);
+    } catch (err) {
+      console.warn(err);
+    }
   }
 
   return (
@@ -177,6 +197,7 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
 
             <p>{post.description}</p>
           </div>
+          <CommentsBox post={post.id} />
           <form
             onSubmit={commentSubmitHandler}
             className={classes.commentWrapper}
