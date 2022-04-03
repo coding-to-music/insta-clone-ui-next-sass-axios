@@ -5,6 +5,7 @@ type AuthContextObj = {
   isLoggedIn: boolean;
   token: string | null;
   userId: string | null;
+  username: string | null;
   login: (uid: string, token: string, expirationDate?: Date) => void;
   logout: () => void;
 };
@@ -14,17 +15,19 @@ export const AuthContext = React.createContext<AuthContextObj>({
   isLoggedIn: false,
   token: null,
   userId: null,
+  username: null,
   login: (uid: string, token: string, expirationDate?: Date) => {},
   logout: () => {},
 });
 
 const AuthContextProvider: React.FC = (props) => {
-  const { token, userId, login, logout } = useAuth();
+  const { token, userId, username, login, logout } = useAuth();
 
   const contextValue: AuthContextObj = {
     isLoggedIn: !!token,
     token: token,
     userId: userId,
+    username: username,
     login: login,
     logout: logout,
   };

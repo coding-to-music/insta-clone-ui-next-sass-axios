@@ -13,10 +13,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Avatar from "../shared/UIElements/Avatar";
 import UserObj from "../../models/userObj";
-import CommentInput from "../shared/FormElements/CommentInput";
-import useForm from "../shared/hooks/form-hook";
+import Comments from "../shared/FormElements/Comments";
 import { VALIDATOR_REQUIRE } from "../../components/shared/Util/validators";
-import CommentsBox from "../shared/UIElements/CommentsBox";
 
 const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
   const router = useRouter();
@@ -32,13 +30,6 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const date = new Date(post.createDate);
-
-  const [formState, inputHandler] = useForm(
-    {
-      comment: { value: "", isValid: false },
-    },
-    false
-  );
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -81,30 +72,6 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
       console.warn(err);
     }
     router.push(`/user/${auth.userId}`);
-  }
-
-  async function commentSubmitHandler(e: React.SyntheticEvent) {
-    e.preventDefault();
-    let responseData;
-    try {
-      console.log(formState.inputs.comment.value);
-      console.log(post.id);
-      responseData = await sendRequest(
-        `${process.env.SERVER}/api/posts/comment/${post.id}`,
-        "POST",
-        {
-          comment: formState.inputs.comment.value,
-          postId: post.id,
-        },
-        {
-          "Content-Type": "application/json",
-          Authorization: `BEARER ${auth.token}`,
-        }
-      );
-      console.log(responseData);
-    } catch (err) {
-      console.warn(err);
-    }
   }
 
   return (
@@ -197,30 +164,15 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
 
             <p>{post.description}</p>
           </div>
-          <CommentsBox post={post.id} />
-          <form
-            onSubmit={commentSubmitHandler}
-            className={classes.commentWrapper}
-          >
-            <div className={classes.input}>
-              <CommentInput
-                id='comment'
-                label='Comment'
-                errorText='Cannot be empty'
-                onInput={inputHandler}
-                element='input'
-                type='input'
-                validators={[VALIDATOR_REQUIRE()]}
-              />
-            </div>
-            <button
-              className={classes.submit}
-              type='submit'
-              disabled={!formState.isValid}
-            >
-              Post
-            </button>
-          </form>
+          <Comments
+            postid={post.id}
+            id='comment'
+            label='Comment'
+            errorText='Cannot be empty'
+            element='input'
+            type='input'
+            validators={[VALIDATOR_REQUIRE()]}
+          />
         </div>
       </li>
     </React.Fragment>

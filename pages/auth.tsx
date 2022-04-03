@@ -43,8 +43,11 @@ const Auth: NextPage = () => {
           },
           { "Content-Type": "application/json" }
         );
-
-        authCtx.login(responseData.userId, responseData.token);
+        authCtx.login(
+          responseData.userId,
+          responseData.token,
+          responseData.username
+        );
         router.push("/");
       } catch (err) {}
     } else {
@@ -59,7 +62,11 @@ const Auth: NextPage = () => {
           "POST",
           formData
         );
-        authCtx.login(responseData.userId, responseData.token);
+        authCtx.login(
+          responseData.userId,
+          responseData.token,
+          responseData.username
+        );
         router.push("/");
       } catch (err) {}
     }

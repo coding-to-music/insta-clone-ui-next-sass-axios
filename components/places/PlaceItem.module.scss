@@ -87,34 +87,6 @@
     }
   }
 
-  .commentWrapper {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    .input {
-      flex-grow: 2;
-    }
-    .submit {
-      font-weight: 700;
-      letter-spacing: 0.1rem;
-      background: #222222;
-      border-color: rgba(0, 0, 0, 0.657);
-      border-width: 0.1rem 0.1rem 0.1rem 0rem;
-      border-top-right-radius: 0.4rem;
-      border-bottom-right-radius: 0.4rem;
-      color: rgb(104, 113, 248);
-      transition: 0.2s;
-      font: inherit;
-      padding: 0.15rem;
-      width: 70px;
-      cursor: pointer;
-    }
-
-    .submit:disabled {
-      color: rgba(104, 114, 248, 0.376);
-    }
-  }
-
   .modalContent {
     padding: 0;
   }
