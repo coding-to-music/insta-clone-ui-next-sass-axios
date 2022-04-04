@@ -1,6 +1,7 @@
 .commentWrapper {
   padding: 0.5rem;
-  transition: 0.2s;
+
+  overflow: hidden;
 }
 .comment {
   display: flex;
@@ -8,11 +9,20 @@
   justify-content: flex-start;
   text-align: start;
   gap: 0.5rem;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   .creator {
     font-weight: 700;
+    align-self: center;
   }
   .content {
+    font-size: 0.8rem;
+    align-self: center;
+  }
+  .delete {
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(160, 160, 160, 0.657);
+    cursor: pointer;
   }
 }
 
@@ -111,4 +121,22 @@
     border-top-left-radius: 0.4rem;
     background: #222222;
   }
+}
+
+.modalEnter {
+  opacity: 1;
+}
+
+.modalEnterActive {
+  opacity: 0;
+  transition: all 2000ms;
+}
+
+.modalExit {
+  opacity: 1;
+}
+
+.modalExitActive {
+  opacity: 0;
+  transition: all 2000ms;
 }

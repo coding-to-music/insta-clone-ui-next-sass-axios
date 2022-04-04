@@ -9,8 +9,12 @@ import classes from "./Comments.module.scss";
 import { validate } from "../Util/validators";
 import { useHttpClient } from "../hooks/http-hook";
 import LoadingSpinner from "../UIElements/LoadingSpinner";
+import { CSSTransition } from "react-transition-group";
 import useForm from "../hooks/form-hook";
 import { AuthContext } from "../context/auth-context";
+import Modal from "../../shared/UIElements/Modal";
+import Button from "../../shared/FormElements/Button";
+import { useRouter } from "next/router";
 
 interface inputState {
   value: string;
@@ -59,11 +63,12 @@ const Comments: React.FC<{
   rows?: number;
   errorText?: string | "Error!";
   validators?: any;
-  onInput?: (...args: any) => void;
   value?: any;
   valid?: boolean;
   postid: string;
 }> = (props) => {
+  const router = useRouter();
+  const [animate, setAnimate] = useState<boolean>(false);
   const [formState, inputHandler] = useForm(
     {
       comment: { value: "", isValid: false },
@@ -76,12 +81,14 @@ const Comments: React.FC<{
     isValid: props.valid || false,
   });
   const [comments, setComments] = useState<any[]>([]);
+  const [toBeDeletedComment, setToBeDeletedComment] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
-  const refInput = useRef<HTMLInputElement>(null);
+  const commentRef = useRef<any>(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   let commentsArray: any = [];
 
-  const { id, onInput } = props;
+  const { id } = props;
   const { value, isValid } = inputState;
 
   useEffect(() => {
@@ -93,7 +100,7 @@ const Comments: React.FC<{
     const fetchComments = async () => {
       try {
         const response = await sendRequest(
-          `${process.env.SERVER}/api/posts/comment/${props.postid}`,
+          `${process.env.SERVER}/comments/${props.postid}`,
           "GET"
         );
         setComments(response);
@@ -104,10 +111,12 @@ const Comments: React.FC<{
 
   async function commentSubmitHandler(e: React.SyntheticEvent) {
     e.preventDefault();
+    setAnimate(!animate);
+
     let responseData;
     try {
       responseData = await sendRequest(
-        `${process.env.SERVER}/api/posts/comment/${props.postid}`,
+        `${process.env.SERVER}/comments/${props.postid}`,
         "POST",
         {
           comment: formState.inputs.comment.value,
@@ -121,6 +130,7 @@ const Comments: React.FC<{
     } catch (err) {
       console.warn(err);
     }
+
     if (comments.length > 0) {
       setComments((comments) => [
         ...comments,
@@ -139,7 +149,9 @@ const Comments: React.FC<{
         },
       ]);
     }
+
     dispatch({ type: "CLEAR" });
+    // setAnimate(false);
   }
 
   const changeHandler = (e: any) => {
@@ -154,11 +166,31 @@ const Comments: React.FC<{
     dispatch({ type: "TOUCH" });
   };
 
+  function showDeleteModal() {
+    setShowConfirmModal(true);
+  }
+  function cancelDeleteModal() {
+    setShowConfirmModal(false);
+  }
+  async function confirmDeleteModal() {
+    setShowConfirmModal(false);
+    try {
+      console.log(toBeDeletedComment);
+      await sendRequest(
+        `${process.env.SERVER}/comments/delete/`,
+        "DELETE",
+        { commentId: toBeDeletedComment },
+        { Authorization: `BEARER ${auth.token}` }
+      );
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
   const element =
     props.element === "input" ? (
       <input
         id={props.id}
-        ref={refInput}
         type={props.type}
         placeholder={props.placeholder}
         onChange={changeHandler}
@@ -174,13 +206,24 @@ const Comments: React.FC<{
         value={inputState.value}
       />
     );
-  console.log(comments);
   if (comments.length > 0) {
-    commentsArray = comments.map((comment: any) => {
+    commentsArray = comments.slice().map((comment: any) => {
       return (
         <li key={comment.id} className={classes.comment}>
           <p className={classes.creator}>{comment.creatorId.username}</p>
           <p className={classes.content}>{comment.comment}</p>
+          {auth.userId == comment.creatorId.id && (
+            <a
+              className={classes.delete}
+              ref={commentRef}
+              onClick={() => {
+                setToBeDeletedComment(comment.id);
+                showDeleteModal();
+              }}
+            >
+              Delete?
+            </a>
+          )}
         </li>
       );
     });
@@ -193,22 +236,54 @@ const Comments: React.FC<{
 
   return (
     <React.Fragment>
-      <ul className={classes.commentWrapper}>
-        {!isLoading && commentsArray ? commentsArray : ""}
-      </ul>
+      <Modal
+        show={showConfirmModal}
+        onCancel={cancelDeleteModal}
+        header='Confirmation'
+        footerClass={classes.modalActions}
+        footer={
+          <React.Fragment>
+            <Button inverse={true} onClick={cancelDeleteModal}>
+              Cancel
+            </Button>
+            <Button danger={true} onClick={confirmDeleteModal}>
+              Delete
+            </Button>
+          </React.Fragment>
+        }
+      >
+        <p className={classes.message}>
+          Are you sure you want to delete this? This action is irreversible.
+        </p>
+      </Modal>
+      <CSSTransition
+        in={animate}
+        timeout={2000}
+        classNames={{
+          enter: classes.modalEnter,
+          enterActive: classes.modalEnterActive,
+          exit: classes.modalExit,
+          exitActive: classes.modalExitActive,
+        }}
+      >
+        <ul className={classes.commentWrapper}>
+          {!isLoading && commentsArray ? commentsArray : ""}
+        </ul>
+      </CSSTransition>
       <form
         onSubmit={commentSubmitHandler}
         className={classes.commentsFormWrapper}
       >
         <div className={`${classes.formControl} ${classes.input} ${formClass}`}>
           {element}
-          {!inputState.isValid && inputState.isTouched ? (
+          {!auth.isLoggedIn ? <p>Log in to comment</p> : <p></p>}
+          {auth.isLoggedIn && !inputState.isValid && inputState.isTouched ? (
             <p>{props.errorText}</p>
           ) : (
             <p></p>
           )}
 
-          {!inputState.isValid && !inputState.isTouched ? (
+          {auth.isLoggedIn && !inputState.isValid && !inputState.isTouched ? (
             <p>Leave a comment..</p>
           ) : (
             <p></p>
@@ -217,7 +292,7 @@ const Comments: React.FC<{
         <button
           className={classes.submit}
           type='submit'
-          disabled={!formState.isValid}
+          disabled={!formState.isValid || !auth.isLoggedIn}
         >
           Post
         </button>
