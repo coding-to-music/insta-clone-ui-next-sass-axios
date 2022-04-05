@@ -67,8 +67,6 @@ const Comments: React.FC<{
   valid?: boolean;
   postid: string;
 }> = (props) => {
-  const router = useRouter();
-  const [animate, setAnimate] = useState<boolean>(false);
   const [formState, inputHandler] = useForm(
     {
       comment: { value: "", isValid: false },
@@ -82,6 +80,7 @@ const Comments: React.FC<{
   });
   const [comments, setComments] = useState<any[]>([]);
   const [toBeDeletedComment, setToBeDeletedComment] = useState();
+  const [collapsed, setCollapsed] = useState(false);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
   const commentRef = useRef<any>(null);
@@ -111,7 +110,6 @@ const Comments: React.FC<{
 
   async function commentSubmitHandler(e: React.SyntheticEvent) {
     e.preventDefault();
-    setAnimate(!animate);
 
     let responseData;
     try {
@@ -174,8 +172,8 @@ const Comments: React.FC<{
   }
   async function confirmDeleteModal() {
     setShowConfirmModal(false);
+    setCollapsed(true);
     try {
-      console.log(toBeDeletedComment);
       await sendRequest(
         `${process.env.SERVER}/comments/delete/`,
         "DELETE",
@@ -185,6 +183,11 @@ const Comments: React.FC<{
     } catch (err) {
       console.warn(err);
     }
+    setComments(
+      comments.filter((c: any) => {
+        return c.id !== toBeDeletedComment;
+      })
+    );
   }
 
   const element =
@@ -207,7 +210,7 @@ const Comments: React.FC<{
       />
     );
   if (comments.length > 0) {
-    commentsArray = comments.slice().map((comment: any) => {
+    commentsArray = comments.slice(-3).map((comment: any) => {
       return (
         <li key={comment.id} className={classes.comment}>
           <p className={classes.creator}>{comment.creatorId.username}</p>
@@ -234,6 +237,7 @@ const Comments: React.FC<{
       ? classes.invalid
       : classes.valid;
 
+  const collapsedClass = collapsed ? classes.collapsed : "";
   return (
     <React.Fragment>
       <Modal
@@ -256,20 +260,17 @@ const Comments: React.FC<{
           Are you sure you want to delete this? This action is irreversible.
         </p>
       </Modal>
-      <CSSTransition
-        in={animate}
-        timeout={2000}
-        classNames={{
-          enter: classes.modalEnter,
-          enterActive: classes.modalEnterActive,
-          exit: classes.modalExit,
-          exitActive: classes.modalExitActive,
-        }}
+
+      <ul
+        id='commentWrap'
+        className={`${classes.commentWrapper} ${collapsedClass}`}
       >
-        <ul className={classes.commentWrapper}>
-          {!isLoading && commentsArray ? commentsArray : ""}
-        </ul>
-      </CSSTransition>
+        {commentsArray}
+      </ul>
+
+      {comments.length > 3 && (
+        <p className={classes.modalLink}>...Read more comments</p>
+      )}
       <form
         onSubmit={commentSubmitHandler}
         className={classes.commentsFormWrapper}

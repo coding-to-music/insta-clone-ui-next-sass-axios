@@ -1,10 +1,14 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
+import { createGetInitialProps } from "@mantine/next";
 
-class MyDocument extends Document {
-  static async getInitialProps(ctx) {
-    const initialProps = await Document.getInitialProps(ctx);
-    return { ...initialProps };
-  }
+const getInitialProps = createGetInitialProps();
+
+export default class MyDocument extends Document {
+  // static async getInitialProps(ctx) {
+  //   const initialProps = await Document.getInitialProps(ctx);
+  //   return { ...initialProps };
+  // }
+  static getInitialProps = getInitialProps;
 
   render() {
     return (
@@ -17,9 +21,9 @@ class MyDocument extends Document {
             rel='stylesheet'
           />
         </Head>
-        <div id='drawerportal' />
-        <div id='backdrop' />
         <body>
+          <div id='drawerportal' />
+          <div id='backdrop' />
           <Main />
           <NextScript />
         </body>
@@ -27,5 +31,3 @@ class MyDocument extends Document {
     );
   }
 }
-
-export default MyDocument;

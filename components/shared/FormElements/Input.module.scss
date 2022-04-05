@@ -6,8 +6,11 @@
   textarea {
     width: 100%;
     font: inherit;
-    border: 1px solid #ccc;
-    background: #f8f8f8;
+    color: rgb(26, 26, 26);
+    font-weight: 500;
+    outline: none;
+    border: none;
+    background: #a6a5b3;
     display: block;
     padding: 0.15rem 0.15rem;
     margin-bottom: 1rem;
@@ -15,7 +18,7 @@
   input:focus,
   textarea:focus {
     outline: none;
-    background: #ebebeb;
+    background: #a6a5b3;
     border-color: #510077;
   }
   label {
@@ -27,17 +30,17 @@
 
 .formControl.invalid {
   label {
-    color: red;
+    color: #ddac58;
   }
   p {
-    color: red;
+    color: #ddac58;
     position: absolute;
     top: 0rem;
     right: 1rem;
   }
   input,
   textarea {
-    border-color: red;
-    background: #ffd1d1;
+    border-color: #ddac58;
+    background: #ffe1ae;
   }
 }

@@ -1,8 +1,25 @@
-.commentWrapper {
-  padding: 0.5rem;
-
-  overflow: hidden;
+.message {
+  padding-left: 0.2rem;
 }
+
+.commentWrapper {
+  padding-left: 0.2rem;
+  padding-bottom: 0.5rem;
+  overflow: hidden;
+  height: auto;
+  transition: 1s;
+}
+
+.modalActions {
+  text-align: right;
+}
+
+.modalLink {
+  text-align: right;
+  padding-right: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+
 .comment {
   display: flex;
   flex-direction: row;
@@ -10,6 +27,7 @@
   text-align: start;
   gap: 0.5rem;
   font-size: 0.9rem;
+  animation: fade 0.3s linear;
   .creator {
     font-weight: 700;
     align-self: center;
@@ -26,6 +44,15 @@
   }
 }
 
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .commentsFormWrapper {
   display: flex;
   flex-direction: row;
@@ -36,7 +63,7 @@
   .submit {
     font-weight: 700;
     letter-spacing: 0.1rem;
-    background: #222222;
+    background: #23222f;
     border-color: rgba(0, 0, 0, 0.657);
     border-width: 0.1rem 0.1rem 0.1rem 0rem;
     border-top-right-radius: 0.4rem;
@@ -61,15 +88,12 @@
   textarea {
     width: 100%;
     font: inherit;
-    background: #f8f8f8;
     display: block;
     padding: 0.5rem 0.5rem;
   }
   input:focus,
   textarea:focus {
     outline: none;
-    background: #ebebeb;
-    border-color: #510077;
   }
   label {
     display: block;
@@ -91,7 +115,7 @@
   }
   input,
   textarea {
-    background: #222222;
+    background: #23222f;
     border-color: rgba(0, 0, 0, 0.657);
     border-width: 0.1rem 0rem 0.1rem 0.1rem;
     border-bottom-left-radius: 0.4rem;
@@ -119,24 +143,6 @@
     border-width: 0.1rem 0rem 0.1rem 0.1rem;
     border-bottom-left-radius: 0.4rem;
     border-top-left-radius: 0.4rem;
-    background: #222222;
+    background: #23222f;
   }
-}
-
-.modalEnter {
-  opacity: 1;
-}
-
-.modalEnterActive {
-  opacity: 0;
-  transition: all 2000ms;
-}
-
-.modalExit {
-  opacity: 1;
-}
-
-.modalExitActive {
-  opacity: 0;
-  transition: all 2000ms;
 }

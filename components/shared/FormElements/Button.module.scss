@@ -3,9 +3,9 @@ $ogColor: #fde399;
 .button {
   font: inherit;
   padding: 0.5rem 1.5rem;
-  border: 1px solid #fde399;
+  border: 1px solid #82b6c4;
   border-radius: 4px;
-  background: #fde399;
+  background: #82b6c4;
   color: rgb(37, 37, 37);
   cursor: pointer;
 
@@ -21,8 +21,8 @@ $ogColor: #fde399;
 
 .button:hover,
 .button:active {
-  background: #fceec9;
-  border-color: #fceec7;
+  background: #9bcddb;
+  border-color: #82b6c4;
 }
 
 .buttonInverse {
@@ -33,7 +33,7 @@ $ogColor: #fde399;
 .buttonInverse:hover,
 .buttonInverse:active {
   color: white;
-  background: rgb(59, 59, 59);
+  background: rgba(7, 48, 59, 0.733);
 }
 
 .buttonDanger {

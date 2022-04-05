@@ -85,7 +85,7 @@ const NewPost: React.FC = () => {
           type='textarea'
           validators={[VALIDATOR_MINLENGTH(5)]}
           element='textarea'
-          errorText='Please enter a valid description (5 characters)'
+          errorText='5 character minimum, please'
           onInput={inputHandler}
         />
         <Button type='submit' disabled={!formState.isValid}>

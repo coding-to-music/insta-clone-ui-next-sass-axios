@@ -13,7 +13,6 @@ const ModalOverlay: React.FC<{
   onSubmit?: () => void;
   className?: "Header" | "Content" | "Footer";
 }> = ({
-  className,
   header,
   onSubmit,
   headerClass,
@@ -22,7 +21,6 @@ const ModalOverlay: React.FC<{
   children,
   footer,
 }) => {
-  const modalClass = className ? `${className}` : "";
   const [mounted, setMounted] = useState(false);
 
   const content = (
@@ -70,7 +68,7 @@ const Modal: React.FC<{
         in={props.show}
         mountOnEnter
         unmountOnExit
-        timeout={200}
+        timeout={11100}
         classNames={{
           enter: classes.modalEnter,
           enterActive: classes.modalEnterActive,

@@ -85,7 +85,7 @@ const Update: React.FC<{ data: postObj; myerror: any }> = (props) => {
           valid={formState.inputs.description.isValid}
         />
         <Button type='submit' disabled={!formState.isValid}>
-          UPDATE PLACE
+          UPDATE POST
         </Button>
       </form>
     ) : (
