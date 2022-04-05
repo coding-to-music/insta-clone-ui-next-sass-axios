@@ -1,6 +1,7 @@
 # WIP INSTAGRAM CLONE
 
-HOSTED [HERE](https://insta-sham.netlify.app/)  
+HOSTED [HERE](https://insta-sham.com/)  
+API HOSTED [HERE](https://api.insta-sham.com)
 BACKEND REPO [HERE](https://github.com/mhaslinsky/imagesbackend)
 
 ## Current tech stack
@@ -17,11 +18,15 @@ BACKEND REPO [HERE](https://github.com/mhaslinsky/imagesbackend)
 ### Back End
 
 - NodeJS
-- Nodemon
 - Express
 - Express Validator
 - Body Parser
 - Axios
+- BcryptJS
+- Multer/MulterS3
+- Fs-extra `(for build process)`
+- UUID
+- JSON Web Token
 - Google Maps API `(for converting addresses to coordinates)`
 
 ### Database
@@ -29,3 +34,12 @@ BACKEND REPO [HERE](https://github.com/mhaslinsky/imagesbackend)
 - MongoDB
 - Mongoose
 - Mongoose Unique Validator
+
+### AWS Services
+
+- Elastic Beanstalk `(hosting environment of Backend/API)`
+- Codebuild/Code Pipeline `(for rapid deployment of changes)`
+- S3 `(for image storage)`
+- Route 53 `(domain registrar)`
+- Certificate Manager `(https self signed certs)`
+- IAM `(permissions)`
