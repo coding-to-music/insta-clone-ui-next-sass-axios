@@ -1,21 +1,11 @@
-import React, {
-  useEffect,
-  useReducer,
-  useState,
-  useContext,
-  useRef,
-} from "react";
+import React, { useEffect, useReducer, useState, useContext } from "react";
 import classes from "./Comments.module.scss";
 import { validate } from "../Util/validators";
 import { useHttpClient } from "../hooks/http-hook";
-import LoadingSpinner from "../UIElements/LoadingSpinner";
-import { CSSTransition } from "react-transition-group";
 import useForm from "../hooks/form-hook";
 import { AuthContext } from "../context/auth-context";
 import Modal from "../../shared/UIElements/Modal";
 import Button from "../../shared/FormElements/Button";
-import { useRouter } from "next/router";
-
 interface inputState {
   value: string;
   isValid: boolean;
@@ -80,10 +70,8 @@ const Comments: React.FC<{
   });
   const [comments, setComments] = useState<any[]>([]);
   const [toBeDeletedComment, setToBeDeletedComment] = useState();
-  const [collapsed, setCollapsed] = useState(false);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
-  const commentRef = useRef<any>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   let commentsArray: any = [];
 
@@ -172,7 +160,7 @@ const Comments: React.FC<{
   }
   async function confirmDeleteModal() {
     setShowConfirmModal(false);
-    setCollapsed(true);
+
     try {
       await sendRequest(
         `${process.env.SERVER}/comments/delete/`,
@@ -218,7 +206,6 @@ const Comments: React.FC<{
           {auth.userId == comment.creatorId.id && (
             <a
               className={classes.delete}
-              ref={commentRef}
               onClick={() => {
                 setToBeDeletedComment(comment.id);
                 showDeleteModal();
@@ -237,7 +224,6 @@ const Comments: React.FC<{
       ? classes.invalid
       : classes.valid;
 
-  const collapsedClass = collapsed ? classes.collapsed : "";
   return (
     <React.Fragment>
       <Modal
@@ -261,10 +247,7 @@ const Comments: React.FC<{
         </p>
       </Modal>
 
-      <ul
-        id='commentWrap'
-        className={`${classes.commentWrapper} ${collapsedClass}`}
-      >
+      <ul id='commentWrap' className={classes.commentWrapper}>
         {commentsArray}
       </ul>
 
