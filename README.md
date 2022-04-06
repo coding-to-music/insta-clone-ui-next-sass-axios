@@ -35,7 +35,7 @@ BACKEND REPO [HERE](https://github.com/mhaslinsky/imagesbackend)
 - Mongoose
 - Mongoose Unique Validator
 
-### DevOps
+### AWS Services
 
 - Elastic Beanstalk `(hosting environment of Backend/API)`
 - Codebuild/Code Pipeline `(for rapid deployment of changes)`
