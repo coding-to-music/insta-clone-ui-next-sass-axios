@@ -1,20 +1,11 @@
-import React, {
-  useEffect,
-  useReducer,
-  useState,
-  useContext,
-  useRef,
-} from "react";
+import React, { useEffect, useReducer, useState, useContext } from "react";
 import classes from "./Comments.module.scss";
 import { validate } from "../Util/validators";
 import { useHttpClient } from "../hooks/http-hook";
-import LoadingSpinner from "../UIElements/LoadingSpinner";
-import { CSSTransition } from "react-transition-group";
 import useForm from "../hooks/form-hook";
 import { AuthContext } from "../context/auth-context";
 import Modal from "../../shared/UIElements/Modal";
 import Button from "../../shared/FormElements/Button";
-import { useRouter } from "next/router";
 
 interface inputState {
   value: string;
@@ -80,16 +71,17 @@ const Comments: React.FC<{
   });
   const [comments, setComments] = useState<any[]>([]);
   const [toBeDeletedComment, setToBeDeletedComment] = useState();
-  const [collapsed, setCollapsed] = useState(false);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
-  const commentRef = useRef<any>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  let commentsArray: any = [];
+  const [commentsModal, setCommentsModal] = useState(false);
 
+  let commentsPreview,
+    fullComments: any = [];
   const { id } = props;
   const { value, isValid } = inputState;
 
+  //inputhandler
   useEffect(() => {
     inputHandler(id, value, isValid);
   }, [id, value, isValid, inputHandler]);
@@ -110,7 +102,6 @@ const Comments: React.FC<{
 
   async function commentSubmitHandler(e: React.SyntheticEvent) {
     e.preventDefault();
-
     let responseData;
     try {
       responseData = await sendRequest(
@@ -147,9 +138,7 @@ const Comments: React.FC<{
         },
       ]);
     }
-
     dispatch({ type: "CLEAR" });
-    // setAnimate(false);
   }
 
   const changeHandler = (e: any) => {
@@ -172,7 +161,6 @@ const Comments: React.FC<{
   }
   async function confirmDeleteModal() {
     setShowConfirmModal(false);
-    setCollapsed(true);
     try {
       await sendRequest(
         `${process.env.SERVER}/comments/delete/`,
@@ -209,8 +197,9 @@ const Comments: React.FC<{
         value={inputState.value}
       />
     );
+
   if (comments.length > 0) {
-    commentsArray = comments.slice(-3).map((comment: any) => {
+    commentsPreview = comments.slice(-3).map((comment: any) => {
       return (
         <li key={comment.id} className={classes.comment}>
           <p className={classes.creator}>{comment.creatorId.username}</p>
@@ -218,9 +207,28 @@ const Comments: React.FC<{
           {auth.userId == comment.creatorId.id && (
             <a
               className={classes.delete}
-              ref={commentRef}
               onClick={() => {
                 setToBeDeletedComment(comment.id);
+                showDeleteModal();
+              }}
+            >
+              Delete?
+            </a>
+          )}
+        </li>
+      );
+    });
+    fullComments = comments.map((comment: any) => {
+      return (
+        <li key={comment.id} className={classes.modalCommentsWrapper}>
+          <p className={classes.creator}>{comment.creatorId.username}</p>
+          <p className={classes.content}>{comment.comment}</p>
+          {auth.userId == comment.creatorId.id && (
+            <a
+              className={classes.delete}
+              onClick={() => {
+                setToBeDeletedComment(comment.id);
+                setCommentsModal(false);
                 showDeleteModal();
               }}
             >
@@ -237,7 +245,6 @@ const Comments: React.FC<{
       ? classes.invalid
       : classes.valid;
 
-  const collapsedClass = collapsed ? classes.collapsed : "";
   return (
     <React.Fragment>
       <Modal
@@ -261,15 +268,19 @@ const Comments: React.FC<{
         </p>
       </Modal>
 
-      <ul
-        id='commentWrap'
-        className={`${classes.commentWrapper} ${collapsedClass}`}
-      >
-        {commentsArray}
+      <ul id='commentWrap' className={classes.commentWrapper}>
+        {commentsPreview}
       </ul>
 
       {comments.length > 3 && (
-        <p className={classes.modalLink}>...Read more comments</p>
+        <p
+          className={classes.modalLink}
+          onClick={() => {
+            setCommentsModal(true);
+          }}
+        >
+          ...Read more comments
+        </p>
       )}
       <form
         onSubmit={commentSubmitHandler}
