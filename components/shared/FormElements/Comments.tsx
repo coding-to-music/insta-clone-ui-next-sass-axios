@@ -285,7 +285,7 @@ const Comments: React.FC<{
         onCancel={closeCommentsModal}
         header='Comments'
       >
-        {fullComments}
+        <ul>{fullComments}</ul>
       </Modal>
 
       <ul className={classes.commentWrapper}>{commentsPreview}</ul>

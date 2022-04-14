@@ -57,9 +57,11 @@
 
 @media (max-width: 768px) {
   .modal {
-    left: 0rem;
-    width: 100%;
-    max-height: 55vh;
-    overflow: scroll;
+    left: 1vw;
+    width: 98vw;
+    max-height: 60vh;
+  }
+  .modalContent {
+    max-height: 50vh;
   }
 }
