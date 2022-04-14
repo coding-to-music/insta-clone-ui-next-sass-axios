@@ -1,12 +1,13 @@
 import React, { useEffect, useReducer, useState, useContext } from "react";
 import classes from "./Comments.module.scss";
-import { validate } from "../Util/validators";
+import { validate, VALIDATOR_REQUIRE } from "../Util/validators";
 import { useHttpClient } from "../hooks/http-hook";
 import useForm from "../hooks/form-hook";
 import { AuthContext } from "../context/auth-context";
 import Modal from "../../shared/UIElements/Modal";
 import Button from "../../shared/FormElements/Button";
 import Avatar from "../UIElements/Avatar";
+import CommentInput from "../FormElements/CommentInput";
 
 interface inputState {
   value: string;
@@ -70,6 +71,7 @@ const Comments: React.FC<{
     isTouched: false,
     isValid: props.valid || false,
   });
+
   const [comments, setComments] = useState<any[]>([]);
   const [toBeDeletedComment, setToBeDeletedComment] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -284,11 +286,20 @@ const Comments: React.FC<{
         show={showCommentsModal}
         onCancel={closeCommentsModal}
         header='Comments'
+        footer={
+          <CommentInput
+            id='comment'
+            validators={[VALIDATOR_REQUIRE()]}
+            postid={props.postid}
+          />
+        }
       >
         <ul>{fullComments}</ul>
       </Modal>
 
-      <ul className={classes.commentWrapper}>{commentsPreview}</ul>
+      {comments.length > 0 && (
+        <ul className={classes.commentWrapper}>{commentsPreview}</ul>
+      )}
 
       {comments.length > 3 && (
         <p
