@@ -37,12 +37,13 @@
   font-size: 0.9rem;
   animation: fade 0.3s linear;
   max-width: 98%;
+  line-height: 1rem;
   .creator {
     font-weight: 700;
+    font-size: 0.8rem;
   }
   .content {
     font-size: 0.8rem;
-    margin-top: 0.2rem;
     align-self: center;
   }
   .delete {
@@ -65,11 +66,11 @@
   .creator {
     justify-self: flex-start;
     font-weight: 700;
+    font-size: 0.8rem;
   }
   .content {
     font-size: 0.8rem;
-
-    width: 60%;
+    width: 68%;
   }
   .delete {
     font-weight: 300;
