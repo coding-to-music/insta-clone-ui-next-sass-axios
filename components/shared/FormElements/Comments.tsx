@@ -6,6 +6,7 @@ import useForm from "../hooks/form-hook";
 import { AuthContext } from "../context/auth-context";
 import Modal from "../../shared/UIElements/Modal";
 import Button from "../../shared/FormElements/Button";
+import Avatar from "../UIElements/Avatar";
 
 interface inputState {
   value: string;
@@ -74,7 +75,7 @@ const Comments: React.FC<{
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [commentsModal, setCommentsModal] = useState(false);
+  const [showCommentsModal, setShowCommentsModal] = useState(false);
 
   let commentsPreview,
     fullComments: any = [];
@@ -159,6 +160,9 @@ const Comments: React.FC<{
   function cancelDeleteModal() {
     setShowConfirmModal(false);
   }
+  function closeCommentsModal() {
+    setShowCommentsModal(false);
+  }
   async function confirmDeleteModal() {
     setShowConfirmModal(false);
     try {
@@ -221,6 +225,14 @@ const Comments: React.FC<{
     fullComments = comments.map((comment: any) => {
       return (
         <li key={comment.id} className={classes.modalCommentsWrapper}>
+          <div style={{ width: "7%" }}>
+            <Avatar
+              width={30}
+              height={30}
+              alt={comment.creatorId.username || `Loading...`}
+              image={comment.creatorId.image}
+            />
+          </div>
           <p className={classes.creator}>{comment.creatorId.username}</p>
           <p className={classes.content}>{comment.comment}</p>
           {auth.userId == comment.creatorId.id && (
@@ -228,7 +240,7 @@ const Comments: React.FC<{
               className={classes.delete}
               onClick={() => {
                 setToBeDeletedComment(comment.id);
-                setCommentsModal(false);
+                setShowCommentsModal(false);
                 showDeleteModal();
               }}
             >
@@ -268,15 +280,21 @@ const Comments: React.FC<{
         </p>
       </Modal>
 
-      <ul id='commentWrap' className={classes.commentWrapper}>
-        {commentsPreview}
-      </ul>
+      <Modal
+        show={showCommentsModal}
+        onCancel={closeCommentsModal}
+        header='Comments'
+      >
+        {fullComments}
+      </Modal>
+
+      <ul className={classes.commentWrapper}>{commentsPreview}</ul>
 
       {comments.length > 3 && (
         <p
           className={classes.modalLink}
           onClick={() => {
-            setCommentsModal(true);
+            setShowCommentsModal(true);
           }}
         >
           ...Read more comments

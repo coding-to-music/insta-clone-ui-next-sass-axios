@@ -12,11 +12,14 @@ const PlaceList: React.FC<{ items: postObj[] }> = (props) => {
       </div>
     );
   }
+
+  console.log(props.items);
+
   return (
     <ul className={classes.placeList}>
       {props.items
         .slice(0)
-        .reverse()
+        .sort((a, b) => (a.createdAt > b.createdAt || b.createDate ? -1 : 1))
         .map((post) => (
           <PlaceItem key={post.id} post={post} />
         ))}

@@ -36,13 +36,13 @@
   gap: 0.5rem;
   font-size: 0.9rem;
   animation: fade 0.3s linear;
-  max-width: 80vw;
+  max-width: 98%;
   .creator {
     font-weight: 700;
-    align-self: center;
   }
   .content {
     font-size: 0.8rem;
+    margin-top: 0.2rem;
     align-self: center;
   }
   .delete {
@@ -52,28 +52,6 @@
     cursor: pointer;
   }
 }
-.commentModal {
-  font-weight: 500;
-  padding: 0.2rem;
-  margin: 0;
-  padding: 0.4rem;
-  background: #252836;
-  border-radius: 1rem 1rem 1rem 1rem;
-  max-width: 50vw;
-}
-.commentHeader {
-  padding: 0.4rem;
-  font-size: 1.583rem;
-  border-radius: 1rem 1rem 0 0;
-  background: #1f1d2b;
-  color: rgb(230, 230, 230);
-  border: 1px;
-}
-.commentBody {
-  background: #252836;
-  color: rgb(230, 230, 230);
-  padding: 0.4rem;
-}
 
 .modalCommentsWrapper {
   display: flex;
@@ -81,15 +59,18 @@
   justify-content: flex-start;
   text-align: start;
   gap: 0.5rem;
-  font-size: 0.9rem;
   max-width: 80vw;
+  padding: 0.2rem;
+  padding-bottom: 0.8rem;
   .creator {
+    justify-self: flex-start;
     font-weight: 700;
-    align-self: center;
   }
   .content {
     font-size: 0.8rem;
-    align-self: center;
+    margin-top: 0.1rem;
+
+    width: 60%;
   }
   .delete {
     font-weight: 300;
@@ -199,5 +180,14 @@
     border-bottom-left-radius: 0.4rem;
     border-top-left-radius: 0.4rem;
     background: #23222f;
+  }
+}
+
+@media (max-width: 768px) {
+  .modalCommentsWrapper {
+    .creator {
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
   }
 }

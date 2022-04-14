@@ -68,7 +68,7 @@ const Modal: React.FC<{
         in={props.show}
         mountOnEnter
         unmountOnExit
-        timeout={11100}
+        timeout={300}
         classNames={{
           enter: classes.modalEnter,
           enterActive: classes.modalEnterActive,

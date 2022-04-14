@@ -1,9 +1,10 @@
 .modal {
   z-index: 100;
   position: fixed;
-  top: 30vh;
-  left: 10%;
-  width: 80%;
+  top: 15vh;
+  left: calc(50% - 20rem);
+  width: 40rem;
+  transition: 0.3s;
   background: #252836;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border-radius: 0.5rem;
@@ -28,13 +29,8 @@
 .modalContent {
   margin: 0.5rem 0rem;
   font-weight: 500;
-}
-
-@media (min-width: 768px) {
-  .modal {
-    left: calc(50% - 20rem);
-    width: 40rem;
-  }
+  overflow-y: auto;
+  max-height: 60vh;
 }
 
 .modalEnter {
@@ -57,4 +53,13 @@
   transform: translateY(-10rem);
   opacity: 0;
   transition: all 200ms;
+}
+
+@media (max-width: 768px) {
+  .modal {
+    left: 0rem;
+    width: 100%;
+    max-height: 55vh;
+    overflow: scroll;
+  }
 }

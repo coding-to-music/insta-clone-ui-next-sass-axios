@@ -29,7 +29,8 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
   } = useHttpClient();
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const date = new Date(post.createDate);
+  //legacy protection for posts made before timestamps added to post schema
+  const date = new Date(post.createdAt || post.createDate);
 
   useEffect(() => {
     const fetchUser = async () => {
