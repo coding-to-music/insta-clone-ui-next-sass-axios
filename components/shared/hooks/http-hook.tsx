@@ -48,7 +48,7 @@ export const useHttpClient = () => {
   };
 
   //using the useEffect cleanup function so that, if the component is rerendered, such as a quick page
-  //refresh the exisiting http requests will be cancelled before new ones are requested
+  //refresh the exisiting http requests will be 'cancelled' before new ones are requested
   useEffect(() => {
     return () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps

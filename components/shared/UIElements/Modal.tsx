@@ -1,10 +1,10 @@
 import classes from "./Modal.module.scss";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, forwardRef } from "react";
 import ReactDOM from "react-dom";
 import { CSSTransition } from "react-transition-group";
 import Backdrop from "./Backdrop";
 
-const ModalOverlay: React.FC<{
+type ModalProps = {
   headerClass?: string;
   contentClass?: string;
   footerClass?: string;
@@ -12,31 +12,32 @@ const ModalOverlay: React.FC<{
   footer?: any;
   onSubmit?: () => void;
   className?: "Header" | "Content" | "Footer";
-}> = ({
-  header,
-  onSubmit,
-  headerClass,
-  contentClass,
-  footerClass,
-  children,
-  footer,
-}) => {
+  ref?: any;
+};
+
+const ModalOverlay: React.FC<ModalProps> = forwardRef<
+  HTMLDivElement,
+  ModalProps
+>((props, ref) => {
+  ModalOverlay.displayName = "ModalOverlay";
   const [mounted, setMounted] = useState(false);
 
   const content = (
-    <div className={classes.modal}>
-      <header className={`${classes.modalHeader} ${headerClass}`}>
-        <h2>{header}</h2>
+    <div ref={ref} className={classes.modal}>
+      <header className={`${classes.modalHeader} ${props.headerClass}`}>
+        <h2>{props.header}</h2>
       </header>
       <form
         onSubmit={
-          onSubmit ? onSubmit : (e: React.FormEvent) => e.preventDefault()
+          props.onSubmit
+            ? props.onSubmit
+            : (e: React.FormEvent) => e.preventDefault()
         }
       >
-        <div className={`${classes.modalContent} ${contentClass}`}>
-          {children}
+        <div className={`${classes.modalContent} ${props.contentClass}`}>
+          {props.children}
         </div>
-        <footer className={footerClass}>{footer}</footer>
+        <footer className={props.footerClass}>{props.footer}</footer>
       </form>
     </div>
   );
@@ -49,7 +50,7 @@ const ModalOverlay: React.FC<{
   return mounted
     ? ReactDOM.createPortal(content, document.getElementById("drawerportal")!)
     : null;
-};
+});
 
 const Modal: React.FC<{
   show: boolean;
@@ -62,12 +63,14 @@ const Modal: React.FC<{
   onSubmit?: () => void;
   className?: "Header" | "Content" | "Footer";
 }> = (props) => {
+  const modalRef = useRef<HTMLDivElement>(null);
   return (
     <React.Fragment>
       <CSSTransition
         in={props.show}
         mountOnEnter
         unmountOnExit
+        nodeRef={modalRef}
         timeout={300}
         classNames={{
           enter: classes.modalEnter,
@@ -76,9 +79,8 @@ const Modal: React.FC<{
           exitActive: classes.modalExitActive,
         }}
       >
-        <ModalOverlay {...props} />
+        <ModalOverlay ref={modalRef} {...props} />
       </CSSTransition>
-
       {props.show && <Backdrop onClick={props.onCancel} />}
     </React.Fragment>
   );
