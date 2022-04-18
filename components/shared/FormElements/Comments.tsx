@@ -104,6 +104,7 @@ const Comments: React.FC<{
   }, [props.postid, sendRequest]);
 
   async function commentSubmitHandler(e: React.SyntheticEvent) {
+    console.log("parent submit");
     e.preventDefault();
     let responseData;
     try {
@@ -182,6 +183,11 @@ const Comments: React.FC<{
         return c.id !== toBeDeletedComment;
       })
     );
+  }
+
+  function commentModalUpdater(comments: any) {
+    console.log("updating comments with" + comments);
+    setComments(comments);
   }
 
   const element =
@@ -288,6 +294,8 @@ const Comments: React.FC<{
         header='Comments'
         footer={
           <CommentInput
+            curComments={comments}
+            commentUpdate={commentModalUpdater}
             id='comment'
             validators={[VALIDATOR_REQUIRE()]}
             postid={props.postid}

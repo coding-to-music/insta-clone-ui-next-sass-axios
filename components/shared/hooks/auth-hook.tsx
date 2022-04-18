@@ -5,12 +5,13 @@ let logoutTimer: ReturnType<typeof setTimeout>;
 const useAuth = () => {
   const [token, setToken] = useState(null);
   const [username, setUsername] = useState(null);
+  const [avatar, setAvatar] = useState(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [tokenExpirationDate, setTokenExpirationDate] = useState<Date | null>(
     null
   );
 
-  const login = useCallback((uid, token, username, expirationDate?) => {
+  const login = useCallback((uid, token, username, avatar, expirationDate?) => {
     setToken(token);
     //new date obj based on current time + 1hr, gettime returns "cur time" in ms
     const tokenExpirationDate =
@@ -22,11 +23,13 @@ const useAuth = () => {
       JSON.stringify({
         userId: uid,
         token: token,
+        avatar: avatar,
         username: username,
         expiration: tokenExpirationDate.toISOString(),
       })
     );
     setUserId(uid);
+    setAvatar(avatar);
     setUsername(username);
   }, []);
 
@@ -53,6 +56,7 @@ const useAuth = () => {
         storedUserData.userId,
         storedUserData.token,
         storedUserData.username,
+        storedUserData.avatar,
         new Date(storedUserData.expiration)
       );
     }
@@ -69,7 +73,7 @@ const useAuth = () => {
     }
   }, [token, logout, tokenExpirationDate]);
 
-  return { token, userId, username, login, logout };
+  return { token, userId, avatar, username, login, logout };
 };
 
 export default useAuth;

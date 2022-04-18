@@ -17,6 +17,19 @@ interface inputAction {
   validators?: any;
 }
 
+type CommentProps = {
+  value?: any;
+  valid?: boolean;
+  postid: string;
+  id: string;
+  placeholder?: string;
+  validators: any;
+  rows?: number;
+  errorText?: string | "Error!";
+  commentUpdate: any;
+  curComments: any;
+};
+
 const inputReducer = (state: inputState, action: inputAction) => {
   switch (action.type) {
     case "CHANGE":
@@ -43,17 +56,8 @@ const inputReducer = (state: inputState, action: inputAction) => {
   }
 };
 
-const CommentInput: React.FC<{
-  value?: any;
-  valid?: boolean;
-  postid: string;
-  id: string;
-  placeholder?: string;
-  validators: any;
-  rows?: number;
-  errorText?: string | "Error!";
-}> = (props) => {
-  const [comments, setComments] = useState<any[]>([]);
+const CommentInput: React.FC<CommentProps> = (props) => {
+  const [comments, setComments] = useState<any[]>(props.curComments);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
   const [inputState, dispatch] = useReducer(inputReducer, {
@@ -63,7 +67,7 @@ const CommentInput: React.FC<{
   });
   //needed to know which part of form state input is updating
   //more important for multiinput forms
-  const { id } = props;
+  const { id, commentUpdate } = props;
   const { value, isValid } = inputState;
   const [formState, inputHandler] = useForm(
     {
@@ -76,6 +80,11 @@ const CommentInput: React.FC<{
   useEffect(() => {
     inputHandler(id, value, isValid);
   }, [id, value, isValid, inputHandler]);
+
+  useEffect(() => {
+    commentUpdate(comments);
+    console.log(comments);
+  }, [comments, commentUpdate]);
 
   async function commentSubmitHandler(e: React.SyntheticEvent) {
     e.preventDefault();
@@ -97,24 +106,14 @@ const CommentInput: React.FC<{
       console.warn(err);
     }
 
-    if (comments.length > 0) {
-      setComments((comments) => [
-        ...comments,
-        {
-          id: Math.random(),
-          creatorId: { username: auth.username },
-          comment: formState.inputs.comment.value,
-        },
-      ]);
-    } else {
-      setComments([
-        {
-          id: Math.random(),
-          creatorId: { username: auth.username },
-          comment: formState.inputs.comment.value,
-        },
-      ]);
-    }
+    setComments((comments) => [
+      ...comments,
+      {
+        id: Math.random(),
+        creatorId: { username: auth.username, image: auth.avatar },
+        comment: formState.inputs.comment.value,
+      },
+    ]);
     dispatch({ type: "CLEAR" });
   }
 

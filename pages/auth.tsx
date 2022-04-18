@@ -46,7 +46,8 @@ const Auth: NextPage = () => {
         authCtx.login(
           responseData.userId,
           responseData.token,
-          responseData.username
+          responseData.username,
+          responseData.avatar
         );
         router.push("/");
       } catch (err) {}
@@ -65,7 +66,8 @@ const Auth: NextPage = () => {
         authCtx.login(
           responseData.userId,
           responseData.token,
-          responseData.username
+          responseData.username,
+          responseData.avatar
         );
         router.push("/");
       } catch (err) {}

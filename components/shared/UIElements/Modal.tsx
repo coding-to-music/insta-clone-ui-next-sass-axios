@@ -10,7 +10,6 @@ type ModalProps = {
   footerClass?: string;
   header?: any;
   footer?: any;
-  onSubmit?: () => void;
   className?: "Header" | "Content" | "Footer";
   ref?: any;
 };
@@ -27,18 +26,11 @@ const ModalOverlay: React.FC<ModalProps> = forwardRef<
       <header className={`${classes.modalHeader} ${props.headerClass}`}>
         <h2>{props.header}</h2>
       </header>
-      <form
-        onSubmit={
-          props.onSubmit
-            ? props.onSubmit
-            : (e: React.FormEvent) => e.preventDefault()
-        }
-      >
-        <div className={`${classes.modalContent} ${props.contentClass}`}>
-          {props.children}
-        </div>
-        <footer className={props.footerClass}>{props.footer}</footer>
-      </form>
+
+      <div className={`${classes.modalContent} ${props.contentClass}`}>
+        {props.children}
+      </div>
+      <footer className={props.footerClass}>{props.footer}</footer>
     </div>
   );
 
