@@ -114,7 +114,7 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
         <div className={classes.headerSection}>
           <div className={classes.headerLeft}>
             {avaLoading && <LoadingSpinner asOverlay={true} />}
-            <a href={`/user/${user?.id}`}>
+            <a href={`/user/${user?.username}`}>
               {user?.image ? (
                 <Avatar
                   width={50}
@@ -127,7 +127,9 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
               )}
             </a>
             <div className={classes.headerLeftSub}>
-              <h4>{user?.username}</h4>
+              <a href={`/user/${user?.username}`}>
+                <h4>{user?.username}</h4>
+              </a>
               <h6
                 style={{ cursor: "pointer", textTransform: "capitalize" }}
                 onClick={openMapHandler}

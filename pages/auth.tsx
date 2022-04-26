@@ -3,6 +3,7 @@ import Input from "../components/shared/FormElements/Input";
 import Button from "../components/shared/FormElements/Button";
 import React, { useState, useContext } from "react";
 import {
+  VALIDATOR_ALPHANUM,
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
@@ -105,8 +106,8 @@ const Auth: NextPage = () => {
               id='username'
               element='input'
               label='Account name'
-              validators={[VALIDATOR_REQUIRE()]}
-              errorText='Please enter a valid account name'
+              validators={[VALIDATOR_REQUIRE(), VALIDATOR_ALPHANUM()]}
+              errorText='Alphnumeric only please'
               onInput={inputHandler}
               value={formState.inputs.username.value}
               valid={formState.inputs.username.isValid}
@@ -140,7 +141,7 @@ const Auth: NextPage = () => {
                 element='input'
                 label='Password'
                 validators={[VALIDATOR_MINLENGTH(6)]}
-                errorText='Password is invalid, must be at least 6 characters'
+                errorText='Must be at least 6 characters'
                 onInput={inputHandler}
                 value={formState.inputs.password.value}
                 valid={formState.inputs.password.isValid}

@@ -29,12 +29,12 @@ const UserPlaces: React.FC<{ data: postObj[]; myerror: string }> = (props) => {
 export default UserPlaces;
 
 export async function getServerSideProps(context: any) {
-  const userID = context.params.uID;
+  const user = context.params.uID;
   let data = null;
   let myerror = null;
   try {
     const response = await axios({
-      url: `${process.env.SERVER}/api/posts/user/${userID}`,
+      url: `${process.env.SERVER}/api/posts/user/${user}`,
       method: "GET",
     });
     data = await response.data;
