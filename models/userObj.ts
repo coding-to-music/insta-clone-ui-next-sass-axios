@@ -4,6 +4,8 @@ export default interface UserObj {
   username: string;
   image: string;
   posts: any[];
+  description?: string;
+  comments: any[];
   __v?: any;
   _id?: any;
 }

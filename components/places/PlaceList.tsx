@@ -13,8 +13,6 @@ const PlaceList: React.FC<{ items: postObj[] }> = (props) => {
     );
   }
 
-  console.log(props.items);
-
   return (
     <ul className={classes.placeList}>
       {props.items

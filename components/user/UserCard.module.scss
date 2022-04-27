@@ -1,0 +1,98 @@
+.error {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  font-weight: 500;
+  font-size: 2rem;
+  margin-top: 11rem;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  gap: 1rem;
+  margin: 1rem auto;
+  padding: 1rem;
+  max-width: 60rem;
+  transition: 0.5s;
+  border-radius: 0.3rem;
+  border: 1px solid rgba(87, 87, 87, 0);
+  border-bottom: 0.01px solid rgb(167, 167, 167);
+  //   background-color: #252836;
+  //   box-shadow: 0.2rem 0.2rem #00000034;
+}
+
+.important {
+  font-weight: 700;
+}
+.avaWrapper {
+  flex-grow: 1;
+}
+.avatar {
+  margin: auto;
+  position: relative;
+  width: 10rem;
+  height: 10rem;
+  transition: 1s;
+
+  .image {
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  .username {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: 500;
+    letter-spacing: 0.1rem;
+    gap: 1rem;
+    .settingsIcon {
+      color: #82b6c4;
+      font-size: 1.5rem;
+      transition: 0.3s;
+    }
+    .settingsIcon:hover {
+      cursor: pointer;
+      color: #ddac58;
+      transition: 0.3s;
+    }
+  }
+  .stats {
+    letter-spacing: 0.05rem;
+    gap: 1rem;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+  }
+  .desc {
+    opacity: 90%;
+    margin-top: 0.4rem;
+    max-width: 35ch;
+  }
+  .noDesc {
+    margin-top: 0.4rem;
+    opacity: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    border-bottom: unset;
+    background-color: #252836;
+    box-shadow: 0.2rem 0.2rem #00000034;
+  }
+  .avatar {
+    position: relative;
+    width: 6rem;
+    height: 6rem;
+    transition: 1s;
+  }
+}
