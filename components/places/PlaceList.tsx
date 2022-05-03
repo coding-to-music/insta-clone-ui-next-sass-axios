@@ -19,7 +19,7 @@ const PlaceList: React.FC<{ items: postObj[] }> = (props) => {
         .slice(0)
         .sort((a, b) => (a.createdAt > b.createdAt || b.createDate ? -1 : 1))
         .map((post) => (
-          <PlaceItem key={post.id} maxHeight='45vh' post={post} />
+          <PlaceItem key={post.id} post={post} />
         ))}
     </ul>
   );
