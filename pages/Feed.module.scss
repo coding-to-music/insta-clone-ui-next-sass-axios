@@ -1,0 +1,17 @@
+.scroll {
+  overflow-y: auto;
+}
+
+.placeList {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  list-style: none;
+  gap: 1rem;
+  margin: 2rem auto;
+  padding: 0;
+  width: 100%;
+  max-width: 40rem;
+  transition: 0.5s;
+}

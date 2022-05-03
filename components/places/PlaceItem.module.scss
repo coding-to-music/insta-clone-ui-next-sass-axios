@@ -5,9 +5,9 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 0.3rem;
+  padding: 0.15rem;
   border-radius: 0.3rem;
-  height: auto;
+
   box-shadow: 0.2rem 0.2rem #00000035;
 
   .headerSection {
@@ -35,24 +35,28 @@
   }
 
   .content {
+    display: flex;
+    flex-direction: column;
     padding: 0;
     width: 100%;
   }
   .info {
     padding: 0.2rem;
-    padding-bottom: 0.4rem;
+
     text-align: left;
     caret-color: transparent;
-
-    h3 {
-      color: rgb(253, 227, 189);
-      text-transform: capitalize;
-    }
 
     .dateTitle {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+    }
+    .title {
+      color: #d4ddf1;
+      text-transform: capitalize;
+      font-size: 1.563rem;
+      font-weight: 600;
+      letter-spacing: 0.03rem;
     }
     .date {
       font-size: 0.8rem;
@@ -65,16 +69,34 @@
   .imageContainer {
     caret-color: transparent;
     cursor: pointer;
-    width: 100%;
-    img {
+
+    .image {
+      width: 100%;
+      max-height: 55vh;
+      height: auto;
+      object-fit: contain;
       background-color: #000000;
       box-shadow: 0rem 0rem 0.2rem 0.1rem #0000006c;
-      width: 100%;
-      height: auto;
-      max-height: 70vh;
-      object-fit: contain;
     }
   }
+
+  // .imageContainer {
+  //   caret-color: transparent;
+  //   cursor: pointer;
+  //   object-fit: contain !important;
+  //   width: 100%;
+  //   > span {
+  //     position: unset !important;
+  //   }
+  //   .image {
+  //     width: 100%;
+  //     position: relative !important;
+  //     height: auto !important;
+  //     object-fit: contain !important;
+  //     background-color: #000000;
+  //     box-shadow: 0rem 0rem 0.2rem 0.1rem #0000006c;
+  //   }
+  // }
 
   .actions {
     padding: 0.5rem;
@@ -105,7 +127,7 @@
 
 @media (max-width: 768px) {
   .placeItem {
-    .image {
+    .images {
       transition: 0.3s;
     }
   }

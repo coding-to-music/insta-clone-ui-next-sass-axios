@@ -15,6 +15,7 @@ import Avatar from "../shared/UIElements/Avatar";
 import UserObj from "../../models/userObj";
 import Comments from "../shared/FormElements/Comments";
 import { VALIDATOR_REQUIRE } from "../../components/shared/Util/validators";
+import { LazyLoadComponent } from "react-lazy-load-image-component";
 
 const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
   const router = useRouter();
@@ -73,6 +74,15 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
       console.warn(err);
     }
     router.push(`/user/${auth.userId}`);
+  }
+
+  // useEffect(() => {
+  //   let image = document.querySelector("img");
+  //   console.log(image?.naturalHeight);
+  // }, []);
+
+  function imageLoader(image: any) {
+    console.log(image.target.height);
   }
 
   return (
@@ -155,13 +165,13 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
               <img
                 alt={post.title}
                 src={post.image}
-                className={classes.images}
+                className={classes.image}
               />
             </div>
           </Link>
           <div className={classes.info}>
             <div className={classes.dateTitle}>
-              <h2>{post.title}</h2>
+              <div className={classes.title}>{post.title}</div>
               <p className={classes.date}>{date.toLocaleDateString()}</p>
             </div>
 
