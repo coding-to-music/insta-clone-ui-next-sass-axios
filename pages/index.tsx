@@ -21,7 +21,7 @@ const Feed: NextPage<{ posts: postObj[]; myerror: string }> = (props) => {
   }, [props.posts]);
 
   useEffect(() => {
-    const fetchTodos = async () => {
+    const fetchPosts = async () => {
       try {
         const request = await fetch(
           `${process.env.SERVER}/api/posts?skip=${skip}`
@@ -32,17 +32,14 @@ const Feed: NextPage<{ posts: postObj[]; myerror: string }> = (props) => {
         console.log(e);
       }
     };
-
-    fetchTodos();
+    fetchPosts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skip]);
 
   useLayoutEffect(() => {
     if (scrollPosition > document.body.offsetHeight - window.innerHeight) {
-      console.log("at bottom");
       setSkip(posts.length);
     }
-    console.log(scrollPosition, window.innerHeight, document.body.offsetHeight);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollPosition]);
 
@@ -55,7 +52,7 @@ const Feed: NextPage<{ posts: postObj[]; myerror: string }> = (props) => {
           <link rel='icon' href='/favicon.ico' />
         </Head>
         <div className={`${classes.placeList} ${classes.notFound}`}>
-          <h2>No Posts found. Try creating one!</h2>
+          <h2>Problem fetching feed, try refreshing, or...</h2>
           <Button href='/posts/new'>Create a Post!</Button>
         </div>
       </React.Fragment>
@@ -69,7 +66,6 @@ const Feed: NextPage<{ posts: postObj[]; myerror: string }> = (props) => {
         <meta name='description' content='better than instagram, maybe' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-
       <ul className={classes.placeList}>
         {posts.map((post) => (
           <PlaceItem key={post.id} post={post} />

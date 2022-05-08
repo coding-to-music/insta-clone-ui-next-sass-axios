@@ -3,11 +3,16 @@ import Modal from "./Modal";
 import Button from "../FormElements/Button";
 import classes from "./ErrorModal.module.scss";
 
-const ErrorModal: React.FC<{ onClear: () => void; error: string | null }> = (
-  props
-) => {
+const ErrorModal: React.FC<{
+  onClear: () => void;
+  error: string | null;
+  contentClass?: string;
+  footerClass?: string;
+}> = (props) => {
   return (
     <Modal
+      contentClass={props.contentClass}
+      footerClass={props.footerClass}
       onCancel={props.onClear}
       header='An Error Occurred!'
       show={!!props.error}

@@ -16,12 +16,16 @@ import LoadingSpinner from "../components/shared/UIElements/LoadingSpinner";
 import { useHttpClient } from "../components/shared/hooks/http-hook";
 import { NextPage } from "next";
 import ImageUpload from "../components/shared/FormElements/ImageUpload";
+import Modal from "../components/shared/UIElements/Modal";
 
 const Auth: NextPage = () => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
+  const [showEmailVerificationModal, setShowEmailVerificationModal] =
+    useState(false);
   const { isLoading, error, clearError, sendRequest } = useHttpClient();
   const authCtx = useContext(AuthContext);
+
   const [formState, inputHandler, setFormData] = useForm(
     {
       email: { value: "", isValid: false },
@@ -51,7 +55,9 @@ const Auth: NextPage = () => {
           responseData.avatar
         );
         router.push("/");
-      } catch (err) {}
+      } catch (err) {
+        console.log(err);
+      }
     } else {
       try {
         const formData = new FormData();
@@ -64,16 +70,25 @@ const Auth: NextPage = () => {
           "POST",
           formData
         );
-        authCtx.login(
-          responseData.userId,
-          responseData.token,
-          responseData.username,
-          responseData.avatar
-        );
-        router.push("/");
-      } catch (err) {}
+        if (responseData) {
+          setShowEmailVerificationModal(true);
+        }
+        // authCtx.login(
+        //   responseData.userId,
+        //   responseData.token,
+        //   responseData.username,
+        //   responseData.avatar
+        // );
+        // router.push("/");
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
+  function closeEmailVerificationModal() {
+    setShowEmailVerificationModal(false);
+    router.reload();
+  }
 
   const changeModeHandler = () => {
     if (!isLogin) {
@@ -96,7 +111,27 @@ const Auth: NextPage = () => {
 
   return (
     <React.Fragment>
-      <ErrorModal error={error} onClear={clearError} />
+      <Modal
+        show={showEmailVerificationModal}
+        onCancel={closeEmailVerificationModal}
+        header='Please Verify Email Address'
+        footerClass={classes.modalActions}
+        contentClass={classes.modalContent}
+        footer={<Button onClick={closeEmailVerificationModal}>OK</Button>}
+      >
+        <p className={classes.message}>
+          Thank you for registering! Before being able to use your account you
+          need to verify that this is your email address by clicking the link in
+          the email we just sent you. If you cannot find it, please check your
+          spam filter.
+        </p>
+      </Modal>
+      <ErrorModal
+        footerClass={classes.modalActions}
+        contentClass={classes.modalContent}
+        error={error}
+        onClear={clearError}
+      />
       <div className={classes.wrapper}>
         {isLoading && <LoadingSpinner asOverlay={true} />}
         <form className={classes.form} onSubmit={submitHandler}>
