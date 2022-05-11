@@ -4,13 +4,18 @@
   width: 90%;
   max-width: 45rem;
   padding: 1rem;
-  margin: 0 auto;
+  margin: 15vh auto;
   background-color: #252836;
   border-radius: 1rem;
-  box-shadow: 0.2rem 0.2rem #0000006c;
+  box-shadow: 0.2rem 0.2rem #00000019;
   h2 {
     margin-bottom: 1rem;
   }
+}
+
+.form {
+  flex: 1;
+  padding: 0.2rem;
 }
 
 .modalActions {

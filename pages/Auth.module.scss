@@ -4,10 +4,10 @@
   width: 90%;
   max-width: 45rem;
   padding: 1rem;
-  margin: 0 auto;
+  margin: 12vh auto;
   background-color: #252836;
   border-radius: 1rem;
-  box-shadow: 0.2rem 0.2rem #0000006c;
+  box-shadow: 0.2rem 0.2rem #00000015;
   h2 {
     margin-bottom: 1rem;
   }
@@ -49,6 +49,13 @@
   font-weight: 500;
   overflow-y: auto;
   max-height: 60vh;
+}
+
+.pwReset {
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  font-style: italic;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {

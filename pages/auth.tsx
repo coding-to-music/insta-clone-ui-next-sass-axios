@@ -17,6 +17,7 @@ import { useHttpClient } from "../components/shared/hooks/http-hook";
 import { NextPage } from "next";
 import ImageUpload from "../components/shared/FormElements/ImageUpload";
 import Modal from "../components/shared/UIElements/Modal";
+import Link from "next/link";
 
 const Auth: NextPage = () => {
   const router = useRouter();
@@ -188,6 +189,11 @@ const Auth: NextPage = () => {
               <Button type='button' inverse={true} onClick={changeModeHandler}>
                 {isLogin ? "No account?" : "Have an account?"}
               </Button>
+              {isLogin && (
+                <Link passHref href='/pwreset'>
+                  <p className={classes.pwReset}>Forgot Password?</p>
+                </Link>
+              )}
             </div>
           </div>
         </form>
