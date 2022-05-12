@@ -1,4 +1,3 @@
-import PlaceList from "../components/places/PlaceList";
 import postObj from "../models/postObj";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import axios from "axios";
@@ -36,7 +35,7 @@ const Feed: NextPage<{ posts: postObj[]; myerror: string }> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skip]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (scrollPosition > document.body.offsetHeight - window.innerHeight) {
       setSkip(posts.length);
     }

@@ -15,6 +15,7 @@ module.exports = {
   env: {
     API_KEY: process.env.API_KEY,
     SERVER: process.env.SERVER,
+    SOCKETIO: process.env.SOCKETIO,
   },
   reactStrictMode: true,
 };
