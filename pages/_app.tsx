@@ -9,7 +9,7 @@ import Socket from "../components/shared/Util/Socket";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthContextProvider>
-      {/* <Socket /> */}
+      <Socket />
       <Script
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.API_KEY}`}
       />

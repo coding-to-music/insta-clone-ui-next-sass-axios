@@ -1,27 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
-import io from "Socket.IO-client";
 import { Socket } from "socket.io-client";
 
 let logoutTimer: ReturnType<typeof setTimeout>;
-// let socket: Socket;
 
 const useAuth = () => {
   const [token, setToken] = useState(null);
-  const [socket, setSocket] = useState<Socket | null>(null);
+  const [socket, assignSocket] = useState<Socket | null>(null);
   const [username, setUsername] = useState(null);
   const [avatar, setAvatar] = useState(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [tokenExpirationDate, setTokenExpirationDate] = useState<Date | null>(
     null
   );
-
-  //init socket connection
-  useEffect(() => {
-    const socketInitializer = async () => {
-      // const mySocket = io(`${process.env.SOCKETIO}`);
-    };
-    socketInitializer();
-  }, []);
 
   const login = useCallback((uid, token, username, avatar, expirationDate?) => {
     setToken(token);
@@ -40,7 +30,6 @@ const useAuth = () => {
         expiration: tokenExpirationDate.toISOString(),
       })
     );
-    // socket.emit("login", uid);
     setUserId(uid);
     setAvatar(avatar);
     setUsername(username);
@@ -52,6 +41,10 @@ const useAuth = () => {
     setUserId(null);
     setUsername(null);
     localStorage.removeItem("userData");
+  }, []);
+
+  const setSocket = useCallback((socket: Socket) => {
+    assignSocket(socket);
   }, []);
 
   //auto login logic
@@ -86,7 +79,7 @@ const useAuth = () => {
     }
   }, [token, logout, tokenExpirationDate]);
 
-  return { token, userId, avatar, username, socket, login, logout };
+  return { token, userId, avatar, username, socket, login, logout, setSocket };
 };
 
 export default useAuth;
