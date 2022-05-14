@@ -4,12 +4,11 @@ import MainNavigation from "../components/shared/Navigation/MainNavigation";
 import React from "react";
 import Script from "next/script";
 import AuthContextProvider from "../components/shared/context/auth-context";
-import Socket from "../components/shared/Util/Socket";
+import SocketContextProvider from "../components/shared/context/socket-context";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthContextProvider>
-      <Socket />
       <Script
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.API_KEY}`}
       />

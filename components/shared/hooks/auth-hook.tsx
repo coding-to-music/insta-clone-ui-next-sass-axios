@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { Socket } from "socket.io-client";
+import useSocket from "../hooks/socket-hook";
 
 let logoutTimer: ReturnType<typeof setTimeout>;
 
 const useAuth = () => {
   const [token, setToken] = useState(null);
-  const [socket, assignSocket] = useState<Socket | null>(null);
   const [username, setUsername] = useState(null);
   const [avatar, setAvatar] = useState(null);
   const [userId, setUserId] = useState<string | null>(null);
@@ -43,10 +42,6 @@ const useAuth = () => {
     localStorage.removeItem("userData");
   }, []);
 
-  const setSocket = useCallback((socket: Socket) => {
-    assignSocket(socket);
-  }, []);
-
   //auto login logic
   useEffect(() => {
     let storedUserData;
@@ -79,7 +74,7 @@ const useAuth = () => {
     }
   }, [token, logout, tokenExpirationDate]);
 
-  return { token, userId, avatar, username, socket, login, logout, setSocket };
+  return { token, userId, avatar, username, login, logout };
 };
 
 export default useAuth;

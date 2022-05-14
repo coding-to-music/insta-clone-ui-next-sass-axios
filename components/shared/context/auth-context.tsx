@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import useAuth from "../hooks/auth-hook";
-import { io, Socket } from "socket.io-client";
 
 type AuthContextObj = {
   isLoggedIn: boolean;
@@ -8,8 +7,6 @@ type AuthContextObj = {
   userId: string | null;
   avatar: string | null;
   username: string | null;
-  socket: Socket | null;
-  setSocket: (socket: Socket) => void;
   login: (
     uid: string,
     token: string,
@@ -27,8 +24,6 @@ export const AuthContext = React.createContext<AuthContextObj>({
   userId: null,
   avatar: null,
   username: null,
-  socket: null,
-  setSocket: (socket: Socket) => {},
   login: (
     uid: string,
     token: string,
@@ -40,8 +35,7 @@ export const AuthContext = React.createContext<AuthContextObj>({
 });
 
 const AuthContextProvider: React.FC = (props) => {
-  const { token, userId, avatar, username, socket, login, logout, setSocket } =
-    useAuth();
+  const { token, userId, avatar, username, login, logout } = useAuth();
 
   const contextValue: AuthContextObj = {
     isLoggedIn: !!token,
@@ -49,8 +43,6 @@ const AuthContextProvider: React.FC = (props) => {
     userId: userId,
     avatar: avatar,
     username: username,
-    socket: socket,
-    setSocket: setSocket,
     login: login,
     logout: logout,
   };
