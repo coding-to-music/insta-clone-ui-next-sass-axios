@@ -1,17 +1,21 @@
 import classes from "./NavLinks.module.scss";
 import Link from "next/link";
 import { AuthContext } from "../context/auth-context";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
+import { SocketContext } from "../context/socket-context";
+import { socket } from "../Util/Socket";
 
 const NavLinks: React.FC = (props) => {
   const auth = useContext(AuthContext);
   const router = useRouter();
 
-  const logoutHandler = () => {
+  const logoutHandler = async () => {
     auth.logout();
     router.push("/");
+    socket.emit("logout", auth.userId);
   };
+
   return (
     <ul className={classes.navLinks}>
       <li>

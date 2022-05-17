@@ -1,7 +1,7 @@
 import useForm from "../components/shared/hooks/form-hook";
 import Input from "../components/shared/FormElements/Input";
 import Button from "../components/shared/FormElements/Button";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   VALIDATOR_ALPHANUM,
   VALIDATOR_EMAIL,
@@ -18,6 +18,7 @@ import { NextPage } from "next";
 import ImageUpload from "../components/shared/FormElements/ImageUpload";
 import Modal from "../components/shared/UIElements/Modal";
 import Link from "next/link";
+import { socket } from "../components/shared/Util/Socket";
 
 const Auth: NextPage = () => {
   const router = useRouter();
@@ -26,7 +27,6 @@ const Auth: NextPage = () => {
     useState(false);
   const { isLoading, error, clearError, sendRequest } = useHttpClient();
   const authCtx = useContext(AuthContext);
-
   const [formState, inputHandler, setFormData] = useForm(
     {
       email: { value: "", isValid: false },
@@ -34,6 +34,11 @@ const Auth: NextPage = () => {
     },
     true
   );
+
+  useEffect(() => {
+    if (!authCtx.userId) return;
+    socket.emit("login", authCtx.userId);
+  }, [authCtx.userId]);
 
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -55,6 +60,7 @@ const Auth: NextPage = () => {
           responseData.username,
           responseData.avatar
         );
+
         router.push("/");
       } catch (err) {
         console.log(err);

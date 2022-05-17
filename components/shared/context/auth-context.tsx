@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useAuth from "../hooks/auth-hook";
 
 type AuthContextObj = {

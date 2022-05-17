@@ -10,8 +10,14 @@ export const SocketContext = React.createContext<SocketContextObj>({
 });
 
 const SocketContextProvider: React.FC = (props) => {
+  const [socket, setSocket] = useState<Socket | null>(null);
+
+  useEffect(() => {
+    setSocket(io(`${process.env.SOCKETIO}`));
+  }, []);
+
   const contextValue: SocketContextObj = {
-    socket: io(`${process.env.SOCKETIO}`),
+    socket: socket,
   };
 
   return (
