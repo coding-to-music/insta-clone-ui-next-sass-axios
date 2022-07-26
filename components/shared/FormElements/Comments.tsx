@@ -93,10 +93,7 @@ const Comments: React.FC<{
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const response = await sendRequest(
-          `${process.env.SERVER}/comments/${props.postid}`,
-          "GET"
-        );
+        const response = await sendRequest(`${process.env.SERVER}/comments/${props.postid}`, "GET");
         setComments(response);
       } catch (err) {}
     };
@@ -104,7 +101,6 @@ const Comments: React.FC<{
   }, [props.postid, sendRequest]);
 
   async function commentSubmitHandler(e: React.SyntheticEvent) {
-    console.log("parent submit");
     e.preventDefault();
     let responseData;
     try {
@@ -186,7 +182,6 @@ const Comments: React.FC<{
   }
 
   function commentModalUpdater(comments: any) {
-    console.log("updating comments with" + comments);
     setComments(comments);
   }
 
@@ -201,13 +196,7 @@ const Comments: React.FC<{
         value={inputState.value}
       />
     ) : (
-      <textarea
-        id={props.id}
-        rows={props.rows || 1}
-        onChange={changeHandler}
-        onBlur={touchHandler}
-        value={inputState.value}
-      />
+      <textarea id={props.id} rows={props.rows || 1} onChange={changeHandler} onBlur={touchHandler} value={inputState.value} />
     );
 
   if (comments.length > 0) {
@@ -234,12 +223,7 @@ const Comments: React.FC<{
       return (
         <li key={comment.id} className={classes.modalCommentsWrapper}>
           <div style={{ width: "7%" }}>
-            <Avatar
-              width={30}
-              height={30}
-              alt={comment.creatorId.username || `Loading...`}
-              image={comment.creatorId.image}
-            />
+            <Avatar width={30} height={30} alt={comment.creatorId.username || `Loading...`} image={comment.creatorId.image} />
           </div>
           <p className={classes.creator}>{comment.creatorId.username}</p>
           <p className={classes.content}>{comment.comment}</p>
@@ -260,10 +244,7 @@ const Comments: React.FC<{
     });
   }
 
-  const formClass =
-    !inputState.isValid && inputState.isTouched
-      ? classes.invalid
-      : classes.valid;
+  const formClass = !inputState.isValid && inputState.isTouched ? classes.invalid : classes.valid;
 
   return (
     <React.Fragment>
@@ -283,9 +264,7 @@ const Comments: React.FC<{
           </React.Fragment>
         }
       >
-        <p className={classes.message}>
-          Are you sure you want to delete this? This action is irreversible.
-        </p>
+        <p className={classes.message}>Are you sure you want to delete this? This action is irreversible.</p>
       </Modal>
 
       <Modal
@@ -305,9 +284,7 @@ const Comments: React.FC<{
         <ul>{fullComments}</ul>
       </Modal>
 
-      {comments.length > 0 && (
-        <ul className={classes.commentWrapper}>{commentsPreview}</ul>
-      )}
+      {comments.length > 0 && <ul className={classes.commentWrapper}>{commentsPreview}</ul>}
 
       {comments.length > 3 && (
         <p
@@ -319,30 +296,15 @@ const Comments: React.FC<{
           ...Read more comments
         </p>
       )}
-      <form
-        onSubmit={commentSubmitHandler}
-        className={classes.commentsFormWrapper}
-      >
+      <form onSubmit={commentSubmitHandler} className={classes.commentsFormWrapper}>
         <div className={`${classes.formControl} ${classes.input} ${formClass}`}>
           {element}
           {!auth.isLoggedIn ? <p>Log in to comment</p> : <p></p>}
-          {auth.isLoggedIn && !inputState.isValid && inputState.isTouched ? (
-            <p>{props.errorText}</p>
-          ) : (
-            <p></p>
-          )}
+          {auth.isLoggedIn && !inputState.isValid && inputState.isTouched ? <p>{props.errorText}</p> : <p></p>}
 
-          {auth.isLoggedIn && !inputState.isValid && !inputState.isTouched ? (
-            <p>Leave a comment..</p>
-          ) : (
-            <p></p>
-          )}
+          {auth.isLoggedIn && !inputState.isValid && !inputState.isTouched ? <p>Leave a comment..</p> : <p></p>}
         </div>
-        <button
-          className={classes.submit}
-          type='submit'
-          disabled={!formState.isValid || !auth.isLoggedIn}
-        >
+        <button className={classes.submit} type='submit' disabled={!formState.isValid || !auth.isLoggedIn}>
           Post
         </button>
       </form>

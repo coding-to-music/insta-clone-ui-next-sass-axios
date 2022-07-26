@@ -15,19 +15,13 @@ import Avatar from "../shared/UIElements/Avatar";
 import UserObj from "../../models/userObj";
 import Comments from "../shared/FormElements/Comments";
 import { VALIDATOR_REQUIRE } from "../../components/shared/Util/validators";
-import { LazyLoadComponent } from "react-lazy-load-image-component";
 
 const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
   const router = useRouter();
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [user, setUser] = useState<UserObj>();
-  const {
-    isLoading: avaLoading,
-    error: avaError,
-    sendRequest: avaSendRequest,
-    clearError: avaClearError,
-  } = useHttpClient();
+  const { isLoading: avaLoading, error: avaError, sendRequest: avaSendRequest, clearError: avaClearError } = useHttpClient();
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   //legacy protection for posts made before timestamps added to post schema
@@ -36,10 +30,7 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await avaSendRequest(
-          `${process.env.SERVER}/api/users/${post.creatorId}`,
-          "GET"
-        );
+        const response = await avaSendRequest(`${process.env.SERVER}/api/users/${post.creatorId}`, "GET");
         setUser(response);
       } catch (err) {
         console.warn(err);
@@ -64,25 +55,11 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
   async function confirmDeleteModal() {
     setShowConfirmModal(false);
     try {
-      await sendRequest(
-        `${process.env.SERVER}/api/posts/${post.id}`,
-        "DELETE",
-        null,
-        { Authorization: `BEARER ${auth.token}` }
-      );
+      await sendRequest(`${process.env.SERVER}/api/posts/${post.id}`, "DELETE", null, { Authorization: `BEARER ${auth.token}` });
     } catch (err) {
       console.warn(err);
     }
     router.push(`/user/${auth.userId}`);
-  }
-
-  // useEffect(() => {
-  //   let image = document.querySelector("img");
-  //   console.log(image?.naturalHeight);
-  // }, []);
-
-  function imageLoader(image: any) {
-    console.log(image.target.height);
   }
 
   return (
@@ -115,9 +92,7 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
           </React.Fragment>
         }
       >
-        <p className={classes.message}>
-          Are you sure you want to delete this? This action is irreversible.
-        </p>
+        <p className={classes.message}>Are you sure you want to delete this? This action is irreversible.</p>
       </Modal>
       <li className={classes.placeItem}>
         {isLoading && <LoadingSpinner asOverlay={true} />}
@@ -126,12 +101,7 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
             {avaLoading && <LoadingSpinner asOverlay={true} />}
             <a href={`/user/${user?.username}`}>
               {user?.image ? (
-                <Avatar
-                  width={50}
-                  height={50}
-                  alt={user?.username || `Loading...`}
-                  image={user.image}
-                />
+                <Avatar width={50} height={50} alt={user?.username || `Loading...`} image={user.image} />
               ) : (
                 <LoadingSpinner asOverlay={false} />
               )}
@@ -140,18 +110,13 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
               <a href={`/user/${user?.username}`}>
                 <h4>{user?.username}</h4>
               </a>
-              <h6
-                style={{ cursor: "pointer", textTransform: "capitalize" }}
-                onClick={openMapHandler}
-              >
+              <h6 style={{ cursor: "pointer", textTransform: "capitalize" }} onClick={openMapHandler}>
                 {post.address}
               </h6>
             </div>
           </div>
           <div className={classes.actions}>
-            {auth.userId == post.creatorId && (
-              <Button href={`/posts/edit/${post.id}`}>EDIT</Button>
-            )}
+            {auth.userId == post.creatorId && <Button href={`/posts/edit/${post.id}`}>EDIT</Button>}
             {auth.userId == post.creatorId && (
               <Button onClick={showDeleteModal} danger={true}>
                 DELETE
@@ -161,13 +126,7 @@ const PlaceItem: React.FC<{ post: postObj }> = ({ post }) => {
         </div>
         <div className={classes.content}>
           <Link href={`/posts/${post.id}`} passHref>
-            <div className={classes.imageContainer}>
-              <img
-                alt={post.title}
-                src={post.image}
-                className={classes.image}
-              />
-            </div>
+            <img alt={post.title} src={post.image} className={classes.image} />
           </Link>
           <div className={classes.info}>
             <div className={classes.dateTitle}>

@@ -28,9 +28,6 @@ const Verify: NextPage<{ data: any; myerror: any }> = (props) => {
   const { userID, token } = router.query;
   let inputForm = null;
 
-  console.log(props.data);
-  console.log(props.myerror);
-
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     let responseData;
@@ -64,9 +61,7 @@ const Verify: NextPage<{ data: any; myerror: any }> = (props) => {
         {isLoading && <LoadingSpinner asOverlay={true} />}
         <form className={classes.form} onSubmit={submitHandler}>
           <h2>Password Reset</h2>
-          <p style={{ marginBottom: ".6rem" }}>
-            Enter your desired new password below
-          </p>
+          <p style={{ marginBottom: ".6rem" }}>Enter your desired new password below</p>
           <Input
             id='password'
             element='input'

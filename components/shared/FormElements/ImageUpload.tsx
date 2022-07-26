@@ -27,7 +27,6 @@ const ImageUpload: React.FC<{
     let pickedFile: File;
     //protection against validity being out of date due to react slow to update
     let fileIsValid = isValid;
-    console.log(e.target);
     if (e.target.files && e.target.files.length === 1) {
       pickedFile = e.target.files[0];
       setFile(pickedFile);
@@ -66,13 +65,7 @@ const ImageUpload: React.FC<{
       <div className={`${classes.imageUpload} ${centerClass}`}>
         <div className={classes.imageUploadPreview}>
           {previewURL && (
-            <Image
-              onClick={imageHandler}
-              layout='fill'
-              src={previewURL as string}
-              alt='Preview'
-              objectFit='cover'
-            />
+            <Image onClick={imageHandler} layout='fill' src={previewURL as string} alt='Preview' objectFit='cover' />
           )}
           {!previewURL && <p>Choose a profile pic!</p>}
         </div>

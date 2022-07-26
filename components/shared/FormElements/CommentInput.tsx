@@ -83,7 +83,6 @@ const CommentInput: React.FC<CommentProps> = (props) => {
 
   useEffect(() => {
     commentUpdate(comments);
-    console.log(comments);
   }, [comments, commentUpdate]);
 
   async function commentSubmitHandler(e: React.SyntheticEvent) {
@@ -128,16 +127,10 @@ const CommentInput: React.FC<CommentProps> = (props) => {
     });
   };
 
-  const formClass =
-    !inputState.isValid && inputState.isTouched
-      ? classes.invalid
-      : classes.valid;
+  const formClass = !inputState.isValid && inputState.isTouched ? classes.invalid : classes.valid;
 
   return (
-    <form
-      onSubmit={commentSubmitHandler}
-      className={classes.commentsFormWrapper}
-    >
+    <form onSubmit={commentSubmitHandler} className={classes.commentsFormWrapper}>
       <div className={`${classes.formControl} ${classes.input} ${formClass}`}>
         <input
           id={props.id}
@@ -149,22 +142,10 @@ const CommentInput: React.FC<CommentProps> = (props) => {
         />
 
         {!auth.isLoggedIn ? <p>Log in to comment</p> : <p></p>}
-        {auth.isLoggedIn && !inputState.isValid && inputState.isTouched ? (
-          <p>{props.errorText}</p>
-        ) : (
-          <p></p>
-        )}
-        {auth.isLoggedIn && !inputState.isValid && !inputState.isTouched ? (
-          <p>Leave a comment..</p>
-        ) : (
-          <p></p>
-        )}
+        {auth.isLoggedIn && !inputState.isValid && inputState.isTouched ? <p>{props.errorText}</p> : <p></p>}
+        {auth.isLoggedIn && !inputState.isValid && !inputState.isTouched ? <p>Leave a comment..</p> : <p></p>}
       </div>
-      <button
-        className={classes.submit}
-        type='submit'
-        disabled={!formState.isValid || !auth.isLoggedIn}
-      >
+      <button className={classes.submit} type='submit' disabled={!formState.isValid || !auth.isLoggedIn}>
         Post
       </button>
     </form>

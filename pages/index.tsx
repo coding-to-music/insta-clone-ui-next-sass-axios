@@ -1,5 +1,5 @@
 import postObj from "../models/postObj";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -22,9 +22,7 @@ const Feed: NextPage<{ posts: postObj[]; myerror: string }> = (props) => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const request = await fetch(
-          `${process.env.SERVER}/api/posts?skip=${skip}`
-        );
+        const request = await fetch(`${process.env.SERVER}/api/posts?skip=${skip}`);
         const response = await request.json();
         setPosts([...posts, ...response]);
       } catch (e) {

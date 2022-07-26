@@ -4,11 +4,10 @@
   background-color: #252836;
   display: flex;
   flex-direction: column;
-  width: 100%;
   padding: 0.15rem;
   border-radius: 0.3rem;
-
   box-shadow: 0.2rem 0.2rem #00000035;
+  height: 100%;
 
   .headerSection {
     display: flex;
@@ -18,8 +17,8 @@
     justify-content: space-between;
     align-self: start;
     margin: 0.2rem;
+    height: 3.5rem;
   }
-
   .headerLeftSub {
     margin-left: 0.4rem;
     display: flex;
@@ -27,7 +26,6 @@
     text-align: left;
     flex-direction: column;
   }
-
   .headerLeft {
     display: flex;
     align-self: start;
@@ -37,12 +35,13 @@
   .content {
     display: flex;
     flex-direction: column;
+    flex: 1;
     padding: 0;
     width: 100%;
+    height: 100%;
   }
   .info {
     padding: 0.2rem;
-
     text-align: left;
     caret-color: transparent;
 
@@ -66,37 +65,15 @@
     }
   }
 
-  .imageContainer {
-    caret-color: transparent;
+  .image {
+    display: inline-block;
     cursor: pointer;
-
-    .image {
-      width: 100%;
-      max-height: 55vh;
-      height: auto;
-      object-fit: contain;
-      background-color: #000000;
-      box-shadow: 0rem 0rem 0.2rem 0.1rem #0000006c;
-    }
+    height: 100%;
+    margin: auto;
+    object-fit: contain;
+    background-color: #000000;
+    box-shadow: 0rem 0rem 0.2rem 0.1rem #0000006c;
   }
-
-  // .imageContainer {
-  //   caret-color: transparent;
-  //   cursor: pointer;
-  //   object-fit: contain !important;
-  //   width: 100%;
-  //   > span {
-  //     position: unset !important;
-  //   }
-  //   .image {
-  //     width: 100%;
-  //     position: relative !important;
-  //     height: auto !important;
-  //     object-fit: contain !important;
-  //     background-color: #000000;
-  //     box-shadow: 0rem 0rem 0.2rem 0.1rem #0000006c;
-  //   }
-  // }
 
   .actions {
     padding: 0.5rem;

@@ -1,4 +1,3 @@
-import PlaceList from "../../components/places/PlaceList";
 import PlaceGrid from "../../components/places/PlaceGrid";
 import postObj from "../../models/postObj";
 import React, { useEffect, useState } from "react";
