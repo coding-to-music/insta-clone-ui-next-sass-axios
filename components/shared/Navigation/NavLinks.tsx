@@ -4,7 +4,6 @@ import { AuthContext } from "../context/auth-context";
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import { SocketContext } from "../context/socket-context";
-import { socket } from "../Util/Socket";
 
 const NavLinks: React.FC = (props) => {
   const auth = useContext(AuthContext);
@@ -13,7 +12,6 @@ const NavLinks: React.FC = (props) => {
   const logoutHandler = async () => {
     auth.logout();
     router.push("/");
-    socket.emit("logout", auth.userId);
   };
 
   return (
