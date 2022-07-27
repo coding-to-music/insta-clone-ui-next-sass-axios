@@ -18,13 +18,11 @@ import { NextPage } from "next";
 import ImageUpload from "../components/shared/FormElements/ImageUpload";
 import Modal from "../components/shared/UIElements/Modal";
 import Link from "next/link";
-import { socket } from "../components/shared/Util/Socket";
 
 const Auth: NextPage = () => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
-  const [showEmailVerificationModal, setShowEmailVerificationModal] =
-    useState(false);
+  const [showEmailVerificationModal, setShowEmailVerificationModal] = useState(false);
   const { isLoading, error, clearError, sendRequest } = useHttpClient();
   const authCtx = useContext(AuthContext);
   const [formState, inputHandler, setFormData] = useForm(
@@ -34,11 +32,6 @@ const Auth: NextPage = () => {
     },
     true
   );
-
-  useEffect(() => {
-    if (!authCtx.userId) return;
-    socket.emit("login", authCtx.userId);
-  }, [authCtx.userId]);
 
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -54,12 +47,7 @@ const Auth: NextPage = () => {
           },
           { "Content-Type": "application/json" }
         );
-        authCtx.login(
-          responseData.userId,
-          responseData.token,
-          responseData.username,
-          responseData.avatar
-        );
+        authCtx.login(responseData.userId, responseData.token, responseData.username, responseData.avatar);
 
         router.push("/");
       } catch (err) {
@@ -72,11 +60,7 @@ const Auth: NextPage = () => {
         formData.append("email", formState.inputs.email.value);
         formData.append("password", formState.inputs.password.value);
         formData.append("image", formState.inputs.image.value);
-        responseData = await sendRequest(
-          `${process.env.SERVER}/api/users/signup`,
-          "POST",
-          formData
-        );
+        responseData = await sendRequest(`${process.env.SERVER}/api/users/signup`, "POST", formData);
         if (responseData) {
           setShowEmailVerificationModal(true);
         }
@@ -127,18 +111,11 @@ const Auth: NextPage = () => {
         footer={<Button onClick={closeEmailVerificationModal}>OK</Button>}
       >
         <p className={classes.message}>
-          Thank you for registering! Before being able to use your account you
-          need to verify that this is your email address by clicking the link in
-          the email we just sent you. If you cannot find it, please check your
-          spam filter.
+          Thank you for registering! Before being able to use your account you need to verify that this is your email address by
+          clicking the link in the email we just sent you. If you cannot find it, please check your spam filter.
         </p>
       </Modal>
-      <ErrorModal
-        footerClass={classes.modalActions}
-        contentClass={classes.modalContent}
-        error={error}
-        onClear={clearError}
-      />
+      <ErrorModal footerClass={classes.modalActions} contentClass={classes.modalContent} error={error} onClear={clearError} />
       <div className={classes.wrapper}>
         {isLoading && <LoadingSpinner asOverlay={true} />}
         <form className={classes.form} onSubmit={submitHandler}>
@@ -158,12 +135,7 @@ const Auth: NextPage = () => {
           <div className={classes.imageContainer}>
             {!isLogin && (
               <div className={classes.onlyImage}>
-                <ImageUpload
-                  errorText='Please choose a valid image'
-                  onInput={inputHandler}
-                  center={true}
-                  id='image'
-                />
+                <ImageUpload errorText='Please choose a valid image' onInput={inputHandler} center={true} id='image' />
               </div>
             )}
 

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { AuthContext } from "../context/auth-context";
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
-import { SocketContext } from "../context/socket-context";
 
 const NavLinks: React.FC = (props) => {
   const auth = useContext(AuthContext);
