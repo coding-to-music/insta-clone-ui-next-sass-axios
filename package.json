@@ -19,12 +19,9 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-icons": "^4.3.1",
-    "react-infinite-scroll-component": "^6.1.0",
-    "react-lazy-load-image-component": "^1.5.4",
     "react-transition-group": "^4.4.2",
     "sass": "^1.48.0",
-    "styled-components": "^5.3.5",
-    "styled-system": "^5.1.5"
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@types/google.maps": "^3.47.2",
