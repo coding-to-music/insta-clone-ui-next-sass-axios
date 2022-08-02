@@ -5,8 +5,9 @@ import Image from "next/image";
 import { BsGear } from "react-icons/bs";
 import { useContext } from "react";
 import { AuthContext } from "../shared/context/auth-context";
+import Link from "next/link";
 
-type UserCardProps = { userData: UserObj };
+type UserCardProps = { userData: UserObj; userID: string };
 
 const UserCard: React.FC<UserCardProps> = (props) => {
   const auth = useContext(AuthContext);
@@ -21,47 +22,28 @@ const UserCard: React.FC<UserCardProps> = (props) => {
     <div className={classes.noDesc}>No description set...</div>
   );
 
-  const options =
-    auth.userId == props.userData.id ? (
-      <BsGear className={classes.settingsIcon} />
-    ) : (
-      ""
-    );
+  const options = auth.userId == props.userData.id ? <BsGear size={25} className={classes.settingsIcon} /> : "";
 
   return (
     <header className={classes.wrapper}>
       <div className={classes.avaWrapper}>
         <div className={classes.avatar}>
-          <Image
-            className={classes.image}
-            layout='fill'
-            alt={props.userData.username}
-            src={props.userData.image}
-          />
+          <Image className={classes.image} layout='fill' alt={props.userData.username} src={props.userData.image} />
         </div>
       </div>
       <div className={classes.info}>
         <div className={classes.username}>
           <p>{props.userData.username}</p>
-          {options}
+          <Link href={`/user/edit/${props.userID}`}>{options}</Link>
         </div>
         <div className={classes.stats}>
           <div>
-            <span className={classes.important}>
-              {props.userData.posts.length}
-            </span>{" "}
-            {props.userData.posts.length > 1 || props.userData.posts.length == 0
-              ? "Posts"
-              : "Post"}
+            <span className={classes.important}>{props.userData.posts.length}</span>{" "}
+            {props.userData.posts.length > 1 || props.userData.posts.length == 0 ? "Posts" : "Post"}
           </div>
           <div className={classes.numbers}>
-            <span className={classes.important}>
-              {props.userData.comments.length}
-            </span>{" "}
-            {props.userData.comments.length > 1 ||
-            props.userData.comments.length == 0
-              ? "Comments"
-              : "Comment"}
+            <span className={classes.important}>{props.userData.comments.length}</span>{" "}
+            {props.userData.comments.length > 1 || props.userData.comments.length == 0 ? "Comments" : "Comment"}
           </div>
         </div>
         {description}

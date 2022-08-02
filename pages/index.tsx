@@ -40,7 +40,7 @@ const Feed: NextPage<{ posts: postObj[]; myerror: string }> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollPosition]);
 
-  if (props.posts.length === 0) {
+  if (!props.posts?.length) {
     return (
       <React.Fragment>
         <Head>

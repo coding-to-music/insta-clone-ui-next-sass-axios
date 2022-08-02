@@ -9,6 +9,7 @@ import UserObj from "../../models/userObj";
 type UserPlacesProps = {
   postData: postObj[];
   userData: UserObj;
+  userID: string;
 };
 
 const UserPlaces: React.FC<UserPlacesProps> = (props) => {
@@ -28,7 +29,7 @@ const UserPlaces: React.FC<UserPlacesProps> = (props) => {
 
   return (
     <React.Fragment>
-      <UserCard userData={props.userData}></UserCard>
+      <UserCard userID={props.userID} userData={props.userData}></UserCard>
       {/* <ErrorModal error={error} onClear={errorHandler} /> */}
       <PlaceGrid items={posts} />
       {/* <PlaceList items={posts} /> */}
@@ -38,18 +39,18 @@ const UserPlaces: React.FC<UserPlacesProps> = (props) => {
 export default UserPlaces;
 
 export async function getServerSideProps(context: any) {
-  const user = context.params.uID;
+  const userID = context.params.uID;
   let postData = null;
   let userData = null;
   let myerror = null;
   try {
     const userResponse = await axios({
-      url: `${process.env.SERVER}/api/users/un/${user}`,
+      url: `${process.env.SERVER}/api/users/un/${userID}`,
       method: "GET",
     });
     userData = await userResponse.data;
     const response = await axios({
-      url: `${process.env.SERVER}/api/posts/user/${user}`,
+      url: `${process.env.SERVER}/api/posts/user/${userID}`,
       method: "GET",
     });
     postData = await response.data;
@@ -58,5 +59,5 @@ export async function getServerSideProps(context: any) {
     myerror = error.response?.data.message;
   }
 
-  return { props: { userData, postData } };
+  return { props: { userData, postData, userID } };
 }

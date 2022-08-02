@@ -2,10 +2,7 @@ import postObj from "../../../models/postObj";
 import classes from "./Update.module.scss";
 import Input from "../../../components/shared/FormElements/Input";
 import Button from "../../../components/shared/FormElements/Button";
-import {
-  VALIDATOR_REQUIRE,
-  VALIDATOR_MINLENGTH,
-} from "../../../components/shared/Util/validators";
+import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from "../../../components/shared/Util/validators";
 import useForm from "../../../components/shared/hooks/form-hook";
 import React from "react";
 import axios, { AxiosError } from "axios";
