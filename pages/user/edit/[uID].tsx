@@ -10,6 +10,8 @@ import ErrorModal from "../../../components/shared/UIElements/ErrorModal";
 import Input from "../../../components/shared/FormElements/Input";
 import Button from "../../../components/shared/FormElements/Button";
 import classes from "./EditDesc.module.scss";
+import { VALIDATOR_MINLENGTH } from "../../../components/shared/Util/validators";
+import LoadingSpinner from "../../../components/shared/UIElements/LoadingSpinner";
 
 type EditDescProps = { userData: UserObj; myerror: any };
 
@@ -40,7 +42,7 @@ const EditDescription: React.FC<EditDescProps> = (props) => {
           Authorization: `BEARER ${auth.token}`,
         }
       );
-      router.push(`/posts/${uID}`);
+      router.push(`/user/${uID}`);
     } catch (err) {
       setError("An irregularity has been detected");
     }
@@ -55,11 +57,18 @@ const EditDescription: React.FC<EditDescProps> = (props) => {
           label='About Me'
           errorText='Please enter a valid description'
           onInput={inputHandler}
+          validators={[VALIDATOR_MINLENGTH(0)]}
           value={formState.inputs.description.value}
           valid={formState.inputs.description.isValid}
         />
         <Button type='submit' disabled={!formState.isValid}>
-          UPDATE
+          {isLoading ? (
+            <div className={classes.spinnerWrapper}>
+              <LoadingSpinner asOverlay={false} />
+            </div>
+          ) : (
+            "UPDATE"
+          )}
         </Button>
       </form>
     ) : (
