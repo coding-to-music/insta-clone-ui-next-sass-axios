@@ -9,6 +9,7 @@ module.exports = {
       "monstar-lab.com",
       "localhost",
       "insta-sham.s3.us-east-2.amazonaws.com",
+      "insta-clone-api-mongo-multer-s3.vercel.app",
       "*",
     ],
   },

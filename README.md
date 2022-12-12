@@ -13,7 +13,24 @@ https://insta-sham.com/
 ## Environment variables:
 
 ```java
+module.exports = {
+  images: {
+    domains: [
+      "i.imgur.com",
+      "images.unsplash.com",
+      "ibb.co",
+      "monstar-lab.com",
+      "localhost",
+      "insta-sham.s3.us-east-2.amazonaws.com",
+      "*",
+    ],
+  },
+  env: {
+    API_KEY: process.env.API_KEY,
+    SERVER: process.env.SERVER,
+    SOCKETIO: process.env.SOCKETIO,
 
+GOOGLE_MAPS_API_KEY=""
 ```
 
 ## GitHub
