@@ -1,3 +1,33 @@
+# insta-clone-ui-next-sass-axios
+
+# 🚀 CRUD fullstack Instagram clone 🚀
+
+https://github.com/coding-to-music/insta-clone-ui-next-sass-axios
+
+https://insta-clone-ui-next-sass-axios.vercel.app
+
+From / By https://github.com/mhaslinsky/imagesplaces
+
+https://insta-sham.com/
+
+## Environment variables:
+
+```java
+
+```
+
+## GitHub
+
+```java
+git init
+git add .
+git remote remove origin
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:coding-to-music/insta-clone-ui-next-sass-axios.git
+git push -u origin main
+```
+
 # Insta-sham
 
 This project was my first crack at a CRUD full-stack web application. It utilizes NextJS for the front end,
